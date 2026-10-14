@@ -1,0 +1,2846 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#B8873F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="半熟芝士">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="lib/icons/ic_launcher_192.png">
+<link rel="apple-touch-icon" href="lib/icons/ic_launcher_192.png">
+<title>半熟芝士 · 大四毕设</title>
+<style>
+:root{
+  --paper:#FDFBF5; --paper2:#F7F1E4; --card:#FFFFFF;
+  --ink:#2E2A22; --ink2:#6E6558; --ink3:#A79B85;
+  --line:#EDE4D2; --line2:#F5EFE1;
+  --clay:#B8873F; --clay-bg:#FBF3E0;
+  --flow:#DFA62C; --flow-bg:#FDF3DC;
+  --sage:#7E9484; --sage-bg:#ECF2ED;
+  --gold:#A8802F; --gold-bg:#FAF1DF;
+  --plum:#9B7B8C; --plum-bg:#F8F1F5;
+  --blue:#7A8CA8; --blue-bg:#EDF1F6;
+  --serif:"Source Han Serif SC","Noto Serif SC","Songti SC","STSong",Georgia,"Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--clay-bg)}
+
+.nav{position:sticky;top:0;z-index:50;background:rgba(251,249,245,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.nav-in{max-width:1180px;margin:0 auto;padding:0 40px;display:flex;align-items:center;gap:30px;height:68px}
+.brand{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.brand .bs{font-family:var(--sans);font-size:11px;font-weight:400;color:var(--ink3);margin-left:10px;letter-spacing:.06em}
+.sync-pill{display:flex;align-items:center;gap:7px;padding:6px 13px;border-radius:100px;border:1px solid var(--line);font-size:12.5px;color:var(--ink3);transition:.3s;white-space:nowrap;flex-shrink:0}
+.sync-pill:hover{border-color:var(--clay);color:var(--clay);transform:translateY(-1px)}
+.sync-pill i{width:7px;height:7px;border-radius:50%;background:var(--ink3);flex-shrink:0;transition:.3s}
+.sync-pill.on{color:var(--sage);border-color:#CBDBD0}
+.sync-pill.on i{background:var(--sage)}
+.sync-pill.err{color:#B45B4B;border-color:#EAD9D3}
+.sync-pill.err i{background:#B45B4B}
+.nav-links{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nl{padding:8px 15px;font-size:14.5px;color:var(--ink2);border-radius:100px;transition:.32s cubic-bezier(.4,0,.2,1);white-space:nowrap}
+.nl:hover{color:var(--ink);background:var(--paper2)}
+.nl.on{color:#fff;background:var(--ink)}
+.nl .n{font-family:var(--serif);font-size:11px;opacity:.5;margin-right:6px}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 40px calc(120px + env(safe-area-inset-bottom,0px))}
+.page{display:none;animation:rise .5s cubic-bezier(.22,1,.36,1)}
+.page.on{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.ph{padding:70px 0 38px;position:relative}
+.ph-t{font-family:var(--serif);font-size:42px;font-weight:600;line-height:1.25;letter-spacing:-.01em}
+.ph-d{margin-top:14px;font-size:15px;color:var(--ink2);max-width:660px;line-height:1.85}
+.ph-ico{position:absolute;right:0;top:54px;opacity:.5;pointer-events:none}
+.eyebrow{font-size:11.5px;letter-spacing:.22em;color:var(--ink3);text-transform:uppercase;margin-bottom:18px}
+
+h2.sec{font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:4px}
+.sec-d{font-size:13.5px;color:var(--ink2);margin-bottom:22px}
+.block{margin-top:54px}
+.block:first-child{margin-top:0}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;transition:.4s cubic-bezier(.4,0,.2,1)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:100px;background:var(--ink);color:#fff;font-size:13.5px;transition:.3s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px -12px rgba(42,38,34,.6)}
+.btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--paper2);color:var(--ink);box-shadow:none}
+.btn.sm{padding:6px 14px;font-size:12.5px}
+.btn.clay{background:var(--clay)}
+.btn.danger{background:transparent;color:#B45B4B;border:1px solid #EAD9D3}
+.btn.danger:hover{background:#FBEFEC;box-shadow:none}
+
+.field{margin-bottom:14px}
+.lab{display:block;font-size:12px;color:var(--ink3);margin-bottom:6px;letter-spacing:.03em}
+.inp{width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--paper);font-size:14px;transition:.25s;outline:none}
+.inp:focus{border-color:var(--clay);background:#fff}
+textarea.inp{min-height:74px;resize:vertical;line-height:1.7}
+select.inp{appearance:none;background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23A39C92' stroke-width='1.4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:34px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px}
+.stat-n{font-family:var(--serif);font-size:38px;font-weight:600;line-height:1;letter-spacing:-.02em}
+.stat-l{font-size:12.5px;color:var(--ink3);margin-top:8px}
+.stat-bar{height:3px;background:var(--line2);border-radius:2px;margin-top:14px;overflow:hidden}
+.stat-bar i{display:block;height:100%;background:var(--clay);border-radius:2px;transition:width .9s cubic-bezier(.22,1,.36,1)}
+
+.prog{height:5px;background:var(--line2);border-radius:3px;overflow:hidden}
+.prog i{display:block;height:100%;border-radius:3px;transition:width .8s cubic-bezier(.22,1,.36,1)}
+.tk{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--line2);font-size:14px;color:var(--ink2);line-height:1.65;cursor:pointer}
+.tk:last-child{border-bottom:none}
+.tk:hover{color:var(--ink)}
+.tk .bx{flex:0 0 17px;width:17px;height:17px;border:1.5px solid #D5CCC0;border-radius:5px;margin-top:4px;transition:.25s;position:relative;background:#fff}
+.tk.done .bx{background:var(--sage);border-color:var(--sage)}
+.tk.done .bx::after{content:"";position:absolute;left:5px;top:2px;width:5px;height:9px;border:solid #fff;border-width:0 1.8px 1.8px 0;transform:rotate(42deg)}
+.tk.done span{text-decoration:line-through;color:var(--ink3)}
+
+.tag{display:inline-block;font-size:11.5px;padding:3px 10px;border-radius:100px;background:var(--paper2);color:var(--ink2);margin:3px 5px 3px 0}
+.tag.clay{background:var(--clay-bg);color:#8A6320}
+.tag.sage{background:var(--sage-bg);color:#4F6B58}
+.tag.gold{background:var(--gold-bg);color:#8A6A38}
+.tag.plum{background:var(--plum-bg);color:#7E5F70}
+.tag.blue{background:var(--blue-bg);color:#5A6C88}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:7px 15px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:var(--ink2);background:#fff;transition:.28s cubic-bezier(.4,0,.2,1)}
+.chip:hover{border-color:#DED6C9;transform:translateY(-1px)}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.sl{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--line2)}
+.sl:last-child{border-bottom:none}
+.sl-n{width:150px;font-size:13.5px;flex-shrink:0}
+.sl input[type=range]{flex:1;-webkit-appearance:none;height:3px;background:var(--line);border-radius:2px;outline:none}
+.sl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--clay);cursor:pointer;border:2.5px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.16);transition:.2s}
+.sl input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.18)}
+.sl-v{width:40px;text-align:right;font-family:var(--serif);font-size:15px;flex-shrink:0}
+
+.item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;transition:.35s cubic-bezier(.4,0,.2,1);position:relative}
+.item:hover{border-color:#DED6C9;box-shadow:0 10px 26px -20px rgba(42,38,34,.35)}
+.item-h{display:flex;align-items:baseline;gap:10px;margin-bottom:7px}
+.item-t{font-family:var(--serif);font-size:16px;font-weight:600;line-height:1.4}
+.item-m{font-size:12px;color:var(--ink3);margin-left:auto;flex-shrink:0}
+.item-b{font-size:13.5px;color:var(--ink2);line-height:1.72}
+.item-f{display:flex;gap:6px;margin-top:12px;align-items:center;flex-wrap:wrap}
+.item-del{margin-left:auto;opacity:0;transition:.25s;font-size:12px;color:var(--ink3)}
+.item:hover .item-del{opacity:1}
+.item-del:hover{color:#B45B4B}
+.empty{text-align:center;padding:46px 20px;color:var(--ink3);font-size:14px;border:1px dashed var(--line);border-radius:16px}
+
+.ms{display:grid;grid-template-columns:112px 1fr auto;gap:20px;align-items:baseline;padding:15px 0;border-bottom:1px solid var(--line2)}
+.ms:last-child{border-bottom:none}
+.ms-d{font-family:var(--serif);font-size:14px;color:var(--ink2)}
+.ms-t{font-size:14.5px}.ms-t b{font-weight:600}
+.ms-w{font-size:12.5px;color:var(--ink3);margin-top:2px}
+.ms-c{font-family:var(--serif);font-size:13px;padding:5px 12px;border-radius:100px;background:var(--paper2);color:var(--ink2);white-space:nowrap}
+.ms-c.near{background:var(--clay-bg);color:#8A6320}
+.ms-c.past{background:transparent;color:var(--ink3);border:1px solid var(--line)}
+
+.phase{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden;margin-bottom:14px;transition:.35s}
+.phase-h{display:grid;grid-template-columns:120px 1fr auto;gap:22px;align-items:center;padding:20px 24px;cursor:pointer}
+.phase-h:hover{background:#FDFCFA}
+.phase-w{font-family:var(--serif);font-size:17px;font-weight:600}
+.phase-w span{display:block;font-family:var(--sans);font-size:11.5px;font-weight:400;color:var(--ink3);margin-top:3px}
+.phase-t{font-size:14.5px;font-weight:600}
+.phase-g{font-size:12.5px;color:var(--ink3);margin-top:2px}
+.phase-r{text-align:right;min-width:96px}
+.phase-p{font-family:var(--serif);font-size:22px;line-height:1}
+.phase-p small{font-size:11px;color:var(--ink3);font-family:var(--sans)}
+.phase-b{display:none;padding:4px 24px 22px;border-top:1px solid var(--line2)}
+.phase.open .phase-b{display:block}
+.arw{transition:.35s;font-size:11px;color:var(--ink3);display:inline-block}
+.phase.open .arw{transform:rotate(180deg)}
+
+.wk{display:grid;grid-template-columns:56px repeat(7,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+.wk-h{padding:11px 8px;text-align:center;font-size:12px;color:var(--ink3);border-bottom:1px solid var(--line);border-right:1px solid var(--line2);background:#FBF8F4}
+.wk-h.today{color:var(--clay);font-weight:600}
+.wk-h b{display:block;font-family:var(--serif);font-size:17px;color:var(--ink);margin-top:2px}
+.wk-time{border-right:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+.wk-time span{display:block;font-size:10.5px;color:var(--ink3);text-align:right;padding-right:7px;transform:translateY(-7px);height:0}
+.wk-col{border-right:1px solid var(--line2);border-bottom:1px solid var(--line2);position:relative;min-height:60px}
+.wk-col:last-child{border-right:none}
+.ev{position:absolute;left:3px;right:3px;border-radius:7px;padding:5px 8px;font-size:11.5px;line-height:1.4;overflow:hidden;cursor:pointer;transition:.25s;border-left:3px solid}
+.ev:hover{filter:brightness(.96);transform:scale(1.015)}
+.ev b{display:block;font-weight:600;font-size:11.5px}
+.ev-work{background:var(--blue-bg);color:#4F6382;border-color:var(--blue)}
+.ev-grad{background:var(--clay-bg);color:#8A6320;border-color:var(--clay)}
+.ev-course{background:var(--sage-bg);color:#4F6B58;border-color:var(--sage)}
+.ev-life{background:var(--plum-bg);color:#7E5F70;border-color:var(--plum)}
+.ev.clash{box-shadow:0 0 0 2px #E8B7A8 inset}
+.clash-warn{background:#FBEFEC;border:1px solid #EAD9D3;border-radius:12px;padding:13px 17px;margin-top:14px;font-size:13px;color:#8A6320;display:none;line-height:1.7}
+.clash-warn.on{display:block}
+
+.dir{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden;transition:.5s cubic-bezier(.22,1,.36,1)}
+.dir.top{border-color:var(--clay);box-shadow:0 18px 44px -30px rgba(196,120,95,.6)}
+.dir-h{display:grid;grid-template-columns:1fr 130px;gap:22px;padding:22px 24px;align-items:center;border-bottom:1px solid var(--line2)}
+.dir-r{font-family:var(--serif);font-size:14px;color:var(--ink3);letter-spacing:.05em}
+.dir-n{font-family:var(--serif);font-size:21px;font-weight:600;margin:4px 0 8px;line-height:1.35}
+.dir-d{font-size:13.5px;color:var(--ink2);line-height:1.7}
+.dir-pct{text-align:right}
+.dir-pct b{font-family:var(--serif);font-size:34px;font-weight:600;line-height:1;letter-spacing:-.02em}
+.dir-pct small{display:block;font-size:11px;color:var(--ink3);margin-bottom:8px}
+.dir-b{padding:18px 24px 22px}
+.dir-row{display:grid;grid-template-columns:76px 1fr;gap:14px;padding:9px 0;font-size:13.5px;align-items:start}
+.dir-row+.dir-row{border-top:1px solid var(--line2)}
+.dir-k{font-size:12px;color:var(--ink3);padding-top:2px}
+.dir-risk{margin-top:14px;padding:12px 15px;background:var(--gold-bg);border-radius:10px;font-size:12.5px;color:#8A6A38;line-height:1.65}
+
+.src{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.src-r{display:grid;grid-template-columns:190px 1fr 70px;gap:18px;padding:14px 20px;border-bottom:1px solid var(--line2);transition:.25s;align-items:baseline}
+.src-r:last-child{border-bottom:none}
+.src-r:hover{background:#FDFCFA}
+.src-n{font-size:14px;font-weight:600}
+.src-n span{display:block;font-size:11px;color:var(--ink3);font-weight:400;margin-top:1px;word-break:break-all}
+.src-d{font-size:13px;color:var(--ink2);line-height:1.65}
+.src-go{text-align:right;font-size:12px;color:var(--ink3);transition:.25s}
+.src-r:hover .src-go{color:var(--clay)}
+
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:26px;flex-wrap:wrap}
+.tab{padding:9px 18px;font-size:14px;color:var(--ink3);border-radius:10px 10px 0 0;transition:.28s;position:relative}
+.tab:hover{color:var(--ink2)}
+.tab.on{color:var(--ink);font-weight:600}
+.tab.on::after{content:"";position:absolute;left:18px;right:18px;bottom:-1px;height:2px;background:var(--clay);border-radius:2px}
+
+.streak{display:flex;gap:5px;margin-top:10px}
+.streak i{width:8px;height:8px;border-radius:50%;background:var(--line2)}
+.streak i.on{background:var(--clay)}
+.photo{width:100%;border-radius:10px;margin-top:12px;display:block}
+.note{font-size:12.5px;color:var(--ink3);line-height:1.75;border-top:1px dashed var(--line);padding-top:14px;margin-top:16px}
+.hint{font-size:12px;color:var(--ink3);margin-top:6px;line-height:1.65}
+.toast{position:fixed;bottom:34px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--ink);color:#fff;padding:12px 26px;border-radius:100px;font-size:13.5px;opacity:0;transition:.45s cubic-bezier(.22,1,.36,1);z-index:200;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
+/* 自定义弹窗 · 替代原生 confirm/alert(WebView 里原生弹窗不居中且样式失控) */
+.mask{position:fixed;inset:0;z-index:400;display:none;align-items:center;justify-content:center;
+  background:rgba(38,30,20,.42);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);padding:20px}
+.mask.on{display:flex;animation:mfade .22s ease}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+.modal{width:100%;max-width:420px;max-height:82vh;overflow-y:auto;background:var(--card);
+  border:1px solid var(--line);border-radius:18px;padding:22px 22px 18px;box-shadow:0 18px 50px rgba(38,30,20,.22);
+  animation:mup .3s cubic-bezier(.22,1,.36,1);-webkit-overflow-scrolling:touch}
+@keyframes mup{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+.modal-t{font-size:16px;font-weight:600;line-height:1.5;margin-bottom:10px;word-break:break-word;white-space:pre-wrap}
+.modal-b{font-size:13.5px;color:var(--ink2);line-height:1.75;word-break:break-word;white-space:pre-wrap}
+.modal-a{display:flex;gap:9px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+.modal-a .btn{min-width:82px;justify-content:center}
+.modal pre{white-space:pre-wrap;word-break:break-all;font-size:11.5px;line-height:1.55;
+  background:#FDF8EC;border:1px solid var(--line);border-radius:8px;padding:11px;max-height:44vh;overflow:auto;
+  user-select:all;-webkit-user-select:all}
+@media(max-width:640px){
+  .mask{padding:16px;align-items:center}
+  .modal{max-width:100%;border-radius:16px;padding:20px 18px 16px}
+  .modal-a .btn{flex:1;min-width:0}
+}
+
+/* 流心动效 · 悬停时边缘像半熟芝士一样温和形变 */
+.goo{position:relative;overflow:hidden;
+  transition:border-radius .85s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.4,0,.2,1),border-color .4s,box-shadow .4s,opacity .3s}
+.goo::after{content:"";position:absolute;left:-2%;right:-2%;bottom:0;height:0;pointer-events:none;border-radius:50% 50% 0 0;
+  background:linear-gradient(180deg,rgba(223,166,44,0) 0%,rgba(223,166,44,.10) 45%,rgba(223,166,44,.22) 100%);
+  transition:height .9s cubic-bezier(.22,1,.36,1)}
+.goo:hover::after{height:118%}
+.goo>*{position:relative;z-index:2}
+.item.goo:hover{border-radius:26px 15px 26px 15px}
+.card.goo:hover{border-radius:26px 15px 26px 15px}
+.cand.goo:hover{border-radius:24px 14px 24px 14px}
+.dir.goo:hover{border-radius:26px 14px 26px 14px}
+.mt.goo:hover,.dec.goo:hover,.stat.goo:hover{border-radius:26px 14px 26px 14px}
+
+/* 芝士剖面 · 外壳与流心 */
+.cheese{border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:20px}
+.crust{background:linear-gradient(180deg,#F2E5C9 0%,#F8F0DC 100%);padding:20px 24px 22px}
+.crust .ch-t{font-family:var(--serif);font-size:15.5px;font-weight:600;color:#7A5A1E}
+.crust .ch-d{font-size:12.5px;color:#93754A;margin-top:4px}
+.flowz{background:linear-gradient(180deg,#FBE9B8 0%,#FDF3DC 100%);padding:22px 24px 24px;position:relative;
+  border-radius:52% 48% 0 0 / 30px 26px 0 0;margin-top:-14px}
+.flowz .ch-t{font-family:var(--serif);font-size:15.5px;font-weight:600;color:#8A6410}
+.flowz .ch-d{font-size:12.5px;color:#9A7C30;margin-top:4px}
+.ch-tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:7px}
+.ch-tags .tag{background:rgba(255,255,255,.72)}
+.crust .ch-tags .tag{color:#7A5A1E}
+.flowz .ch-tags .tag{color:#8A6410}
+.cheese-note{padding:16px 24px 20px;background:#fff;border-top:1px solid var(--line2);font-size:13px;color:var(--ink2);line-height:1.8}
+
+/* 偷师清单 */
+.steal{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid var(--line2);cursor:pointer;font-size:14px;line-height:1.65}
+.steal:last-child{border-bottom:none}
+.steal .bx{flex:0 0 17px;width:17px;height:17px;border:1.5px solid #DCCDAB;border-radius:5px;margin-top:4px;transition:.25s;position:relative;background:#fff}
+.steal.done .bx{background:var(--clay);border-color:var(--clay)}
+.steal.done .bx::after{content:"";position:absolute;left:5px;top:2px;width:5px;height:9px;border:solid #fff;border-width:0 1.8px 1.8px 0;transform:rotate(42deg)}
+.steal.done .st-t{text-decoration:line-through;color:var(--ink3)}
+.st-t{color:var(--ink2)}
+.st-t b{color:var(--ink);font-weight:600;display:block}
+.st-d{font-size:12.5px;color:var(--ink3);line-height:1.65;margin-top:2px}
+.st-grp{font-size:12px;letter-spacing:.14em;color:var(--clay);text-transform:uppercase;margin:22px 0 6px}
+.st-grp:first-child{margin-top:0}
+
+/* 节点编辑 */
+.ms-e{display:grid;grid-template-columns:1fr 150px auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line2)}
+.ms-e .inp{padding:8px 12px;font-size:13.5px}
+
+/* rate station */
+.rate-box{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden}
+.rate-top{padding:18px 26px;border-bottom:1px solid var(--line2);background:#FDFCFA;display:flex;align-items:center;gap:16px}
+.rate-top .rt{font-size:12.5px;color:var(--ink3)}
+.rate-top .rt b{font-family:var(--serif);font-size:19px;color:var(--ink);margin-right:3px}
+.rate-q{padding:26px 26px 10px;border-bottom:1px solid var(--line2)}
+.rate-q .q{font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.5}
+.rate-q .m{font-size:12.5px;color:var(--ink3);margin-top:10px}
+.rate-q .m span{margin-right:14px}
+.rate-dims{padding:8px 26px 22px}
+.dim{padding:14px 0;border-bottom:1px solid var(--line2)}
+.dim:last-child{border-bottom:none}
+.dim-h{display:flex;align-items:baseline;gap:8px;margin-bottom:3px}
+.dim-n{font-size:14px;font-weight:600}
+.dim-w{font-size:11px;padding:2px 8px;border-radius:100px;background:var(--clay-bg);color:#8A6320}
+.dim-d{font-size:12.5px;color:var(--ink3);line-height:1.6;margin-bottom:8px}
+.dim-s{display:flex;align-items:center;gap:12px}
+.dim-s input[type=range]{flex:1;-webkit-appearance:none;height:3px;background:var(--line);border-radius:2px;outline:none}
+.dim-s input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--clay);cursor:pointer;border:2.5px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.16)}
+.dim-v{font-family:var(--serif);font-size:19px;width:26px;text-align:right}
+.rate-bot{padding:18px 26px;border-top:1px solid var(--line2);display:flex;gap:10px;align-items:center;background:#FDFCFA}
+.rank{display:grid;grid-template-columns:44px 1fr 92px 60px;gap:16px;padding:14px 0;border-bottom:1px solid var(--line2);align-items:center}
+.rank:last-child{border-bottom:none}
+.rank-i{font-family:var(--serif);font-size:17px;color:var(--ink3);text-align:center}
+.rank-t{font-size:14.5px;line-height:1.5}
+.rank-b{height:5px;background:var(--line2);border-radius:3px;overflow:hidden}
+.rank-b i{display:block;height:100%;background:var(--clay);border-radius:3px;transition:width .7s}
+.rank-s{font-family:var(--serif);font-size:17px;text-align:right}
+.rank-a{text-align:right}
+
+/* cand */
+.cand{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;margin-bottom:14px;transition:.35s}
+.cand.chosen{border-color:var(--sage);box-shadow:0 16px 40px -32px rgba(126,148,132,.8)}
+.cand.dead{opacity:.6}
+.cand-h{padding:18px 22px;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;cursor:pointer}
+.cand-h:hover{background:#FDFCFA}
+.cand-n{font-family:var(--serif);font-size:17px;font-weight:600;line-height:1.4}
+.cand-o{font-size:13px;color:var(--ink2);margin-top:4px}
+.cand-b{display:none;padding:0 22px 20px;border-top:1px solid var(--line2)}
+.cand.open .cand-b{display:block}
+.cand-f{padding:11px 0;border-bottom:1px solid var(--line2)}
+.cand-f:last-child{border-bottom:none}
+.cand-k{font-size:12px;color:var(--ink3);margin-bottom:4px}
+.cand-v{font-size:13.5px;color:var(--ink2);line-height:1.7;white-space:pre-wrap}
+
+/* check */
+.chk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.chk-b{padding:16px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:13.5px;transition:.3s;text-align:center}
+.chk-b:hover{border-color:var(--clay);background:var(--clay-bg);transform:translateY(-2px)}
+.chk-b small{display:block;font-size:11px;color:var(--ink3);margin-top:3px}
+
+/* mentor */
+.mt{border:1px solid var(--line);border-radius:14px;background:#fff;padding:18px 20px;transition:.3s}
+.mt:hover{border-color:#DED6C9}
+.mt-t{font-family:var(--serif);font-size:16px;font-weight:600;margin-bottom:8px}
+.mt-r{display:grid;grid-template-columns:76px 1fr;gap:10px;font-size:13px;padding:5px 0}
+.mt-k{color:var(--ink3);font-size:12px}
+.stars{display:inline-flex;gap:3px}
+.stars i{width:8px;height:8px;border-radius:50%;background:var(--line2)}
+.stars i.on{background:var(--clay)}
+.mt.chosen{border-color:var(--sage);background:var(--sage-bg);box-shadow:0 0 0 2px rgba(126,148,132,.13)}
+.mt.chosen .mt-t:after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--sage);margin-left:7px;vertical-align:middle}
+.mt-now{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:13px 16px;margin-bottom:14px;border-radius:12px;
+  background:var(--sage-bg);border:1px solid rgba(126,148,132,.4);font-size:15px;font-family:var(--serif)}
+.mt-now-k{font-size:11px;font-family:var(--sans);font-weight:600;color:#fff;background:var(--sage);
+  padding:3px 9px;border-radius:100px;letter-spacing:.5px}
+
+.log{display:grid;grid-template-columns:100px 1fr auto;gap:16px;padding:13px 0;border-bottom:1px solid var(--line2);align-items:baseline}
+.log:last-child{border-bottom:none}
+.log-d{font-family:var(--serif);font-size:13px;color:var(--ink2)}
+.log-c{font-size:13.5px;line-height:1.7}
+.log-c b{font-weight:600}
+.log-c .fb{display:block;font-size:12.5px;color:var(--ink2);margin-top:3px}
+.log-c .nx{display:block;font-size:12.5px;color:var(--clay);margin-top:3px}
+
+.dec{border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px 20px;transition:.3s}
+.dec:hover{border-color:#DED6C9}
+.dec-t{font-size:14.5px;font-weight:600;line-height:1.55;margin-bottom:8px}
+.dec-r{font-size:13px;color:var(--ink2);line-height:1.7}
+.dec-r b{color:var(--ink3);font-weight:400;font-size:12px;margin-right:6px}
+
+@media(max-width:960px){
+  .wrap{padding:0 22px}.nav-in{padding:0 22px;gap:16px}
+  .g2,.g3,.g4,.chk-grid{grid-template-columns:1fr 1fr}
+  .ph-t{font-size:31px}.ph{padding:46px 0 28px}.ph-ico{display:none}
+  .wk{grid-template-columns:44px repeat(7,1fr);font-size:11px}
+  .dir-h{grid-template-columns:1fr}
+  .src-r{grid-template-columns:1fr;gap:6px}
+  .ms{grid-template-columns:1fr;gap:6px}
+  .phase-h{grid-template-columns:1fr;gap:10px}
+  .phase-r{text-align:left}
+  .rank{grid-template-columns:34px 1fr 56px;gap:10px}
+  .rank-a{display:none}
+  .log{grid-template-columns:1fr;gap:4px}
+  .row2,.row3{grid-template-columns:1fr}
+}
+
+/* 移动端底部 tabbar */
+.tabbar{display:none}
+.tabbar a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0 4px;color:var(--ink3);font-size:10.5px;font-weight:500;transition:.25s}
+.tabbar a.on{color:var(--clay)}
+.tabbar a svg{transition:.25s}
+.tabbar a.on svg{transform:translateY(-1px)}
+
+@media(max-width:640px){
+  .nav{display:none}
+  .tabbar{display:grid;grid-template-columns:repeat(6,1fr);position:fixed;left:0;right:0;bottom:0;background:rgba(253,251,245,.95);backdrop-filter:blur(14px);border-top:1px solid var(--line);z-index:49;padding:4px 0 calc(4px + env(safe-area-inset-bottom,0px))}
+  body{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+  .wrap{padding:0 15px}
+  .nav-in{padding:0 15px;gap:6px;height:58px}
+  .nav{padding-top:env(safe-area-inset-top,0px)}
+  .brand{font-size:16.5px}
+  .brand .bs{display:none}
+  .brand svg{width:22px;height:22px;vertical-align:-5px;margin-right:6px}
+  .nl{padding:7px 11px;font-size:13.5px}
+  .nl .n{display:none}
+  .ph{padding:30px 0 20px}
+  .ph-t{font-size:26px}
+  .ph-d{font-size:14px;margin-top:10px}
+  .eyebrow{font-size:10.5px;letter-spacing:.16em;margin-bottom:12px}
+  .block{margin-top:38px}
+  h2.sec{font-size:19px}
+  .card{padding:18px 17px;border-radius:14px}
+  .item{padding:15px 16px}
+  .g4{grid-template-columns:1fr 1fr}
+  .g2,.g3{grid-template-columns:1fr}
+  .chk-grid{grid-template-columns:1fr 1fr}
+  .stat{padding:17px 18px}
+  .stat-n{font-size:30px}
+  .row3{grid-template-columns:1fr}
+  .inp,select.inp,textarea.inp{font-size:16px;padding:11px 13px}
+  .btn{padding:11px 18px}
+  .btn.sm{padding:8px 14px;font-size:12.5px}
+  .chip{padding:9px 14px;font-size:12.5px}
+  .tabs{gap:2px;margin-bottom:20px}
+  .tab{padding:9px 12px;font-size:13.5px}
+  .tab.on::after{left:12px;right:12px}
+  .sl-n{width:108px;font-size:12.5px}
+  .dim-n{font-size:13.5px}
+  .dir-h{padding:18px 18px}
+  .dir-b{padding:16px 18px 18px}
+  .dir-n{font-size:19px}
+  .dir-pct b{font-size:29px}
+  .dir-row{grid-template-columns:64px 1fr;gap:10px}
+  .phase-h{padding:17px 18px}
+  .phase-b{padding:4px 18px 18px}
+  .ms-e{grid-template-columns:1fr;gap:8px}
+  .cand-h{padding:15px 17px}
+  .cheese-note{padding:14px 17px 17px}
+  .crust,.flowz{padding:17px 18px}
+  .st-grp{margin:20px 0 4px}
+  .src-r{padding:13px 16px}
+  .wk-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px}
+  .wk{min-width:540px}
+  table{min-width:460px}
+  .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toast{bottom:calc(26px + env(safe-area-inset-bottom,0px));left:15px;right:15px;text-align:center;font-size:13px}
+  .item-del{opacity:1}
+}
+@media(min-width:641px){
+  .wk{min-width:0}
+}
+@media(hover:none){
+  .goo:active::after{height:118%}
+  .item.goo:active,.card.goo:active,.cand.goo:active,.dir.goo:active{border-radius:26px 15px 26px 15px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <div class="brand"><svg width="27" height="27" viewBox="0 0 28 28" style="vertical-align:-6px;margin-right:9px"><circle cx="14" cy="13" r="10.5" fill="#FBF3E0" stroke="#B8873F" stroke-width="1.2"/><path d="M3.5 13h21" stroke="#B8873F" stroke-width="1" opacity=".32"/><path d="M14 13c3.2 3.4 3.2 7.2 0 9.4" fill="#DFA62C" opacity=".5"/><circle cx="9" cy="9.4" r="1.5" fill="#B8873F" opacity=".28"/><circle cx="19" cy="8.6" r="1" fill="#B8873F" opacity=".24"/></svg>半熟芝士<span class="bs">外壳已成型 · 内里在流动</span></div>
+    <div class="nav-links" id="navs"></div>
+    <button id="sync-pill" class="sync-pill" onclick="go('me');mtab('data')"></button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- HOME -->
+<section class="page on" id="p-home">
+  <div class="ph">
+    <svg class="ph-ico" width="150" height="150" viewBox="0 0 150 150">
+      <path d="M60 96c0 15 6.5 25 13 25s13-10 13-25z" fill="#DFA62C" opacity=".38"/>
+      <circle cx="73" cy="130" r="4.4" fill="#DFA62C" opacity=".5"/>
+      <circle cx="75" cy="64" r="42" fill="#FBF3E0" stroke="#B8873F" stroke-width="1.2"/>
+      <path d="M33 64h84" stroke="#B8873F" stroke-width="1" opacity=".28"/>
+      <path d="M75 64c9.5 9 9.5 20 0 28" fill="#DFA62C" opacity=".3"/>
+      <circle cx="59" cy="52" r="5" fill="#B8873F" opacity=".2"/>
+      <circle cx="93" cy="48" r="3.4" fill="#B8873F" opacity=".17"/>
+      <circle cx="88" cy="74" r="2.6" fill="#B8873F" opacity=".15"/>
+    </svg>
+    <div class="eyebrow">01 半熟 · HOME · 2026.09 — 2027.06</div>
+    <h1 class="ph-t">外壳已经成型,<br>内里还在流动。</h1>
+    <p class="ph-d">你已经有清晰的设计框架——风格、方法、审美都在。里面的灵感、逻辑和实验还在碰撞。这个站负责三件事:帮你选对师傅、把一堆观察压成一个选题、以及让你不撞车。</p>
+  </div>
+
+  <div class="block" id="now-topic"></div>
+  <div class="block" id="sync-card"></div>
+
+  <div class="g4 block">
+    <div class="stat goo"><div class="stat-n" id="s-idea">0</div><div class="stat-l">行为观察 · 目标 100</div><div class="stat-bar"><i id="s-idea-b" style="width:0%"></i></div></div>
+    <div class="stat goo"><div class="stat-n" id="s-rate">0</div><div class="stat-l">已完成五维评分</div><div class="stat-bar"><i id="s-rate-b" style="width:0%;background:var(--sage)"></i></div></div>
+    <div class="stat goo"><div class="stat-n" id="s-task">0%</div><div class="stat-l">计划任务完成度</div><div class="stat-bar"><i id="s-task-b" style="width:0%;background:var(--gold)"></i></div></div>
+    <div class="stat goo"><div class="stat-n" id="s-day">0</div><div class="stat-l" id="s-day-l">距离下一个节点</div><div class="stat-bar"><i id="s-day-b" style="width:0%;background:var(--plum)"></i></div></div>
+  </div>
+
+  <div class="block g2">
+    <div class="card">
+      <h2 class="sec">现在该做什么</h2>
+      <div class="sec-d">当前阶段:<b id="h-phase">—</b></div>
+      <div id="h-now"></div>
+    </div>
+    <div class="card">
+      <h2 class="sec">最近的节点</h2>
+      <div class="sec-d">标 * 的日期是我按常规学年推的,开学后去教务核实</div>
+      <div id="h-ms"></div>
+    </div>
+  </div>
+
+  <div class="block card goo" style="background:linear-gradient(180deg,#fff 0%,#FDF9EF 100%)">
+    <div style="display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center">
+      <div>
+        <h2 class="sec">加一勺</h2>
+        <div class="sec-d" style="margin-bottom:0">看到什么没人认真设计过、但人人都凑合着解决的事,现在就写。30 秒。</div>
+      </div>
+      <button class="btn ghost" onclick="go('inspire')">打开观察库</button>
+    </div>
+    <div class="row2" style="margin-top:20px">
+      <input class="inp" id="q-act" placeholder="动作 · 比如:把一周的药片分进吃空的糖盒">
+      <input class="inp" id="q-obj" placeholder="借用什么物 · 比如:空糖盒">
+    </div>
+    <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+      <input class="inp" id="q-why" placeholder="他为什么这么做 · 这一栏是设计洞察的来源" style="flex:1">
+      <button class="btn" onclick="quickAdd()">记下</button>
+    </div>
+  </div>
+
+  <div class="block g3">
+    <div class="card goo">
+      <h2 class="sec" style="font-size:17px">第一步不是定形状</h2>
+      <p style="font-size:13.5px;color:var(--ink2)">是选导师。导师双选在开题之前,他的风格决定了你后面九个月怎么过——尤其对你这种全职实习的人。</p>
+      <button class="btn ghost sm" style="margin-top:14px" onclick="go('select');stab('mt')">去看导师模块</button>
+    </div>
+    <div class="card goo">
+      <h2 class="sec" style="font-size:17px">先查重,再动手</h2>
+      <p style="font-size:13.5px;color:var(--ink2)">做到 3 月才发现别人做过了,你已经没有时间重来。定题时就该查一遍,一键开八个搜索页。</p>
+      <button class="btn ghost sm" style="margin-top:14px" onclick="go('select');stab('dup')">打开查重哨兵</button>
+    </div>
+    <div class="card goo">
+      <h2 class="sec" style="font-size:17px">数据在你自己手上</h2>
+      <p style="font-size:13.5px;color:var(--ink2)">所有记录只存在这台电脑的浏览器里。清缓存、换电脑就没了。定期导出一份。</p>
+      <button class="btn ghost sm" style="margin-top:14px" onclick="go('me');mtab('data')">去导出备份</button>
+    </div>
+  </div>
+</section>
+
+<!-- PLAN -->
+<section class="page" id="p-plan">
+  <div class="ph">
+    <svg class="ph-ico" width="150" height="150" viewBox="0 0 150 150">
+      <rect x="69" y="32" width="12" height="72" rx="6" fill="#FBF3E0" stroke="#B8873F" stroke-width="1.2"/>
+      <path d="M75 54v48" stroke="#DFA62C" stroke-width="3.2" opacity=".6"/>
+      <circle cx="75" cy="110" r="15" fill="#DFA62C" opacity=".45"/>
+      <path d="M88 48h8M88 60h8M88 72h8M88 84h8" stroke="#B8873F" stroke-width="1" opacity=".4"/>
+    </svg>
+    <div class="eyebrow">02 烘焙表 · PLAN</div>
+    <h1 class="ph-t">四段时间,<br>四个温度。</h1>
+    <p class="ph-d">计划 · 四个阶段,每阶段有明确交付物。点开任意阶段展开任务。<b>关键节点</b>是硬期限——过了那个日期,后面全部跟着塌。日期都可以改。</p>
+  </div>
+
+  <div class="block">
+    <h2 class="sec">关键节点</h2>
+    <div class="sec-d">按顺序来。红色是 30 天内到期的。<b>日期都能改</b>——点「改」直接编辑,核实完教务给的真实日期就回来更新。</div>
+    <div class="card" id="ms-list"></div>
+    <div style="margin-top:14px;display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+      <div style="flex:2;min-width:180px"><label class="lab">新节点</label><input class="inp" id="ms-n" placeholder="比如:导师双选结果公布"></div>
+      <div style="flex:1;min-width:130px"><label class="lab">日期</label><input class="inp" type="date" id="ms-d"></div>
+      <button class="btn ghost" onclick="addMs()">添加</button>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2 class="sec">四个阶段</h2>
+    <div class="sec-d">勾选状态存在本地,关掉浏览器也不会丢。</div>
+    <div id="phases"></div>
+  </div>
+
+  <div class="block card">
+    <h2 class="sec">工时预算</h2>
+    <div class="sec-d">全职实习下你全年能凑出约 490 小时。低于这个数会翻车。</div>
+    <div class="tbl-scroll"><table style="width:100%;border-collapse:collapse;font-size:13.5px">
+      <thead><tr><th style="text-align:left;padding:10px 0;border-bottom:1px solid var(--line);color:var(--ink3);font-weight:500;font-size:12px">时间段</th><th style="text-align:left;padding:10px 0;border-bottom:1px solid var(--line);color:var(--ink3);font-weight:500;font-size:12px">来源</th><th style="text-align:right;padding:10px 0;border-bottom:1px solid var(--line);color:var(--ink3);font-weight:500;font-size:12px">周工时</th></tr></thead>
+      <tbody>
+        <tr><td style="padding:11px 0;border-bottom:1px solid var(--line2)"><b>工作日通勤</b></td><td style="padding:11px 0;border-bottom:1px solid var(--line2);color:var(--ink2)">只输入:阅读、看案例、刷观察</td><td style="padding:11px 0;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--serif);font-size:16px">5h</td></tr>
+        <tr><td style="padding:11px 0;border-bottom:1px solid var(--line2)"><b>工作日晚上</b></td><td style="padding:11px 0;border-bottom:1px solid var(--line2);color:var(--ink2)">整理观察库、写论文、出草图</td><td style="padding:11px 0;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--serif);font-size:16px">6h</td></tr>
+        <tr><td style="padding:11px 0;border-bottom:1px solid var(--line2)"><b>周六</b></td><td style="padding:11px 0;border-bottom:1px solid var(--line2);color:var(--ink2)">实地调研:家居店、旧货市场、超市</td><td style="padding:11px 0;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--serif);font-size:16px">4h</td></tr>
+        <tr><td style="padding:11px 0;border-bottom:1px solid var(--line2)"><b>周日</b></td><td style="padding:11px 0;border-bottom:1px solid var(--line2);color:var(--ink2)">整块软件时间:出方案、排版</td><td style="padding:11px 0;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--serif);font-size:16px">4h</td></tr>
+        <tr><td style="padding:11px 0"><b>寒假 3–4 周</b></td><td style="padding:11px 0;color:var(--ink2)">全职对待,全年产能核心</td><td style="padding:11px 0;text-align:right;font-family:var(--serif);font-size:16px;color:var(--clay)">45h</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note">建议分配:调研 25% · 设计执行 40% · 论文 20% · 制作布展 15%。常见错误是把 80% 时间砸在设计执行上,结果论文空、调研薄、答辩讲不出「为什么」。</div>
+  </div>
+</section>
+
+<!-- SELECT -->
+<section class="page" id="p-select">
+  <div class="ph">
+    <svg class="ph-ico" width="150" height="150" viewBox="0 0 150 150">
+      <path d="M44 66h62l-7 54H51z" fill="#FBF3E0" stroke="#B8873F" stroke-width="1.2"/>
+      <path d="M51 66c0-9 11-16 24-16s24 7 24 16z" fill="#DFA62C" opacity=".42"/>
+      <path d="M58 82h34M56 98h38" stroke="#B8873F" stroke-width="1" opacity=".22"/>
+      <circle cx="75" cy="46" r="3" fill="#B8873F" opacity=".3"/>
+    </svg>
+    <div class="eyebrow">03 定型 · SELECT</div>
+    <h1 class="ph-t">先选师傅,<br>再定形状。</h1>
+    <p class="ph-d">选题 · 顺序别搞反:导师双选在前,开题在后。先定老师,再筛观察,再做候选,最后查重。四步走完,开题报告基本就是抄你自己填的东西。</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" data-s="mt" onclick="stab('mt')">01 导师</button>
+    <button class="tab" data-s="rate" onclick="stab('rate')">02 筛选器</button>
+    <button class="tab" data-s="cand" onclick="stab('cand')">03 候选板</button>
+    <button class="tab" data-s="dup" onclick="stab('dup')">04 查重</button>
+  </div>
+
+  <!-- mentor -->
+  <div id="s-mt">
+    <div class="block">
+      <h2 class="sec">选导师要看的六件事</h2>
+      <div class="sec-d">前五条是通用标准,第六条对你是有没有的差别。</div>
+      <div class="g3">
+        <div class="card"><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">1 研究方向</h3><p style="font-size:13px;color:var(--ink2)">他做过的东西和你想做的对不对得上。方向不match,他会一直试图把你拽过去。</p></div>
+        <div class="card"><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">2 带学生的风格</h3><p style="font-size:13px;color:var(--ink2)">放养 / 适中 / 严管。全职实习的人要避开「随叫随到」那类,你请不了那么多假。</p></div>
+        <div class="card"><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">3 往年的成绩</h3><p style="font-size:13px;color:var(--ink2)">他带的学生有没有拿过优秀毕设。这是硬指标,直接反映他的标准和投入度。</p></div>
+        <div class="card"><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">4 学院话语权</h3><p style="font-size:13px;color:var(--ink2)">是不是毕业展评委、答辩委员。评优时这一条的分量比你想的重。</p></div>
+        <div class="card"><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">5 沟通成本</h3><p style="font-size:13px;color:var(--ink2)">回消息快不快、多久见一次、要不要预约。慢的导师会拖死你的时间线。</p></div>
+        <div class="card" style="border-color:var(--clay);background:var(--clay-bg)"><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px;color:#8A3D16">6 对全职实习的态度</h3><p style="font-size:13px;color:#8A3D16">有些导师不接受学生全职实习,会要求定期到校。这对你是最硬的约束,<b>第一次见面就必须问清楚</b>。</p></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2 class="sec">候选导师</h2>
+      <div class="sec-d">见面前先列出来,见完立刻补上判断。别相信记忆。</div>
+      <div id="mt-list" style="margin-bottom:18px"></div>
+      <div class="card">
+        <div class="row3">
+          <div class="field"><label class="lab">姓名</label><input class="inp" id="mt-n" placeholder=""></div>
+          <div class="field"><label class="lab">研究方向</label><input class="inp" id="mt-f" placeholder=""></div>
+          <div class="field"><label class="lab">带学生风格</label><select class="inp" id="mt-s"><option>未知</option><option>放养</option><option>适中</option><option>严管</option></select></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label class="lab">对实习的态度</label><select class="inp" id="mt-w"><option>还没问</option><option>支持</option><option>不反对</option><option>反对 / 要求到校</option></select></div>
+          <div class="field"><label class="lab">意向分 1–5</label><input class="inp" type="number" id="mt-r" value="3" min="1" max="5"></div>
+        </div>
+        <div class="field"><label class="lab">备注 · 往年成绩、话语权、别人对他的评价</label><textarea class="inp" id="mt-x" placeholder=""></textarea></div>
+        <button class="btn clay" onclick="addMt()">加入候选</button>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2 class="sec">沟通日志</h2>
+      <div class="sec-d">每两周一次,哪怕只发三行。频率比内容重要——三个月不出现,评优时他想不起你。</div>
+      <div class="card" style="margin-bottom:16px" id="ml-list"></div>
+      <div class="card">
+        <div class="row3">
+          <div class="field"><label class="lab">日期</label><input class="inp" type="date" id="ml-d"></div>
+          <div class="field"><label class="lab">对象</label><input class="inp" id="ml-m" placeholder="导师姓名"></div>
+          <div class="field"><label class="lab">方式</label><select class="inp" id="ml-t"><option>见面</option><option>微信</option><option>邮件</option><option>组会</option></select></div>
+        </div>
+        <div class="field"><label class="lab">我说了什么 / 给他看了什么</label><input class="inp" id="ml-c" placeholder=""></div>
+        <div class="row2">
+          <div class="field"><label class="lab">他的反馈</label><input class="inp" id="ml-f" placeholder="原话最好,别转述"></div>
+          <div class="field"><label class="lab">下一步</label><input class="inp" id="ml-x" placeholder=""></div>
+        </div>
+        <button class="btn clay" onclick="addMl()">记一次</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- rate -->
+  <div id="s-rate" style="display:none">
+    <div class="block">
+      <h2 class="sec">五维评分台</h2>
+      <details class="note" open style="margin-top:-4px;margin-bottom:16px;border-top:none;padding-top:0">
+        <summary style="cursor:pointer;font-size:13px;color:var(--clay);font-weight:600;user-select:none;margin-bottom:8px">这一步到底在干嘛?</summary>
+        <div style="font-size:12.5px;line-height:1.8">
+          <b>一句话</b>:把你在观察库里记的那些碎片,一条条打分,排个序,挑出最值得做成毕设的几个。<br>
+          <b>数据从哪来</b>:来自「配料表 → 观察库」。你每记一条观察,这里就多一条待评。<b>所以这里是空的,多半是观察库还没记东西。</b><br>
+          <b>怎么玩</b>:上面一次显示一条,拖五个滑块打分 → 评完自动掉到下面的排序表 → 看分数,高分的点「升候选」进候选板。<br>
+          <b>五维权重</b>:共鸣 1.0、可设计性 1.0、文化真实性 0.8、体量 0.9、<b>笨拙度 1.2(最高)</b>。笨拙度是「现在人们怎么凑合解决它」—— 越笨拙,机会越大。
+        </div>
+      </details>
+      <div class="rate-box" id="rate-box"></div>
+    </div>
+    <div class="block">
+      <h2 class="sec">排序结果</h2>
+      <div class="sec-d">评过的按总分排。前几条升格成候选选题。</div>
+      <div class="card" id="rank-list"></div>
+    </div>
+  </div>
+
+  <!-- cand -->
+  <div id="s-cand" style="display:none">
+    <div class="block">
+      <h2 class="sec">候选选题板</h2>
+      <div class="sec-d">放 2–3 个,不要更多。「为什么放弃它」那一栏必填——答辩时评委一定会问你考虑过什么。</div>
+      <div id="cand-list" style="margin-bottom:18px"></div>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><label class="lab">名称</label><input class="inp" id="cd-n" placeholder=""></div>
+          <div class="field"><label class="lab">一句话定位</label><input class="inp" id="cd-o" placeholder="用一句话说清它是什么"></div>
+        </div>
+        <div class="field"><label class="lab">为什么想做</label><textarea class="inp" id="cd-w" placeholder=""></textarea></div>
+        <div class="row2">
+          <div class="field"><label class="lab">优势</label><textarea class="inp" id="cd-p" placeholder=""></textarea></div>
+          <div class="field"><label class="lab">风险</label><textarea class="inp" id="cd-c" placeholder=""></textarea></div>
+        </div>
+        <div class="field"><label class="lab">导师怎么说的</label><input class="inp" id="cd-m" placeholder="原话"></div>
+        <button class="btn clay" onclick="addCand()">加进候选板</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- dup -->
+  <div id="s-dup" style="display:none">
+    <div class="block">
+      <h2 class="sec">查重哨兵</h2>
+      <div class="sec-d">输入关键词,一键打开八个搜索页。定题时查一遍,别等做完。</div>
+      <div class="card">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <input class="inp" id="dup-q" placeholder="比如:药盒 分装 / 模块化 文具 / 桌面 收纳" style="flex:1;min-width:220px">
+          <button class="btn ghost sm" onclick="dupSet('药盒 分装')">试试这个</button>
+        </div>
+        <div class="chk-grid" id="dup-btns"></div>
+        <div class="note">查重要查三样东西:<b>商品</b>(淘宝上有没有人在卖)、<b>作品</b>(Behance / 设计奖有没有人做过)、<b>专利</b>(Google Patents 有没有注册)。三样都干净,才算真没撞。知网用来查有没有人写过这个论文——撞论文比撞产品更麻烦。</div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <h2 class="sec" style="font-size:17px">查完怎么判断</h2>
+        <div class="g3" style="margin-top:14px">
+          <div><h3 style="font-size:14px;font-weight:600;margin-bottom:5px">有人做过,但做得难看</h3><p style="font-size:13px;color:var(--ink2)">好事。说明需求是真的,只是没人做好。你可以做。</p></div>
+          <div><h3 style="font-size:14px;font-weight:600;margin-bottom:5px">有人做过,而且做得很好</h3><p style="font-size:13px;color:var(--ink2)">换。除非你能说出他和你的根本差异在哪,说不出就是重复。</p></div>
+          <div><h3 style="font-size:14px;font-weight:600;margin-bottom:5px">完全没人做过</h3><p style="font-size:13px;color:var(--ink2)">先怀疑自己:是不是这东西根本没需求?去问问五个人,别兴奋太早。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSPIRE -->
+<section class="page" id="p-inspire">
+  <div class="ph">
+    <svg class="ph-ico" width="150" height="150" viewBox="0 0 150 150">
+      <path d="M38 74h74c0 25-16 42-37 42S38 99 38 74z" fill="#FBF3E0" stroke="#B8873F" stroke-width="1.2"/>
+      <path d="M38 74h74" stroke="#B8873F" stroke-width="1.2"/>
+      <path d="M100 34l16 18M104 30l4 4" stroke="#B8873F" stroke-width="1.5" opacity=".5"/>
+      <circle cx="62" cy="62" r="4.5" fill="#DFA62C" opacity=".5"/>
+      <circle cx="80" cy="58" r="3" fill="#B8873F" opacity=".28"/>
+      <circle cx="90" cy="66" r="2.2" fill="#B8873F" opacity=".2"/>
+    </svg>
+    <div class="eyebrow">04 配料表 · INSPIRE</div>
+    <h1 class="ph-t">原料<br>决定上限。</h1>
+    <p class="ph-d">灵感 · 观察库是你自己采的原料:每天记一条没人认真设计过、但人人都凑合着解决的事。灵感网站库和实习偷师是外来的料,都按类型分好了。</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" data-t="obs" onclick="tab('obs')">观察库 · 打卡</button>
+    <button class="tab" data-t="src" onclick="tab('src')">灵感网站库</button>
+    <button class="tab" data-t="st" onclick="tab('st')">实习偷师</button>
+  </div>
+
+  <div id="t-obs">
+    <div class="g2 block">
+      <div class="card">
+        <div style="display:flex;align-items:baseline;gap:12px">
+          <div><div class="stat-n" id="i-cnt">0</div><div class="stat-l">条观察记录</div></div>
+          <div style="margin-left:auto;text-align:right"><div class="stat-n" id="i-strk">0</div><div class="stat-l">连续打卡(天)</div></div>
+        </div>
+        <div class="streak" id="i-strk-d"></div>
+        <div class="prog" style="margin-top:18px"><i id="i-prog" style="width:0%;background:var(--clay)"></i></div>
+        <div class="hint" style="margin-top:8px">100 条是筛选的起点。少于这个数,你是在找灵感,不是在找选题。<b>30 条就可以开始评分了</b>,别等攒满。</div>
+      </div>
+      <div class="card">
+        <h2 class="sec">记一条</h2>
+        <div class="sec-d">只记动作,不记物件。「旧糖盒」没用,「把一周的药片分进吃空的糖盒」才有设计机会。</div>
+        <div class="field"><label class="lab">动作 · 必须写成一个动作</label><input class="inp" id="i-act" placeholder="把一周的药片按早中晚分进吃空的糖盒"></div>
+        <div class="row2">
+          <div class="field"><label class="lab">场景</label><input class="inp" id="i-scn" placeholder="家里老人的床头柜"></div>
+          <div class="field"><label class="lab">借用什么物</label><input class="inp" id="i-obj" placeholder="空糖盒"></div>
+        </div>
+        <div class="field"><label class="lab">他为什么这么做 · 洞察来源</label><textarea class="inp" id="i-why" placeholder="买的分装盒盖子太紧,老人的手拧不动;糖盒大小刚好一个抽屉"></textarea></div>
+        <div class="row2">
+          <div class="field"><label class="lab">共鸣强度</label><select class="inp" id="i-res"><option value="strong">强 · 人人都这样</option><option value="mid" selected>中 · 部分人</option><option value="weak">弱 · 只有我见过</option></select></div>
+          <div class="field"><label class="lab">照片(可选)</label><input class="inp" type="file" accept="image/*" id="i-img" style="padding:7px"></div>
+        </div>
+        <button class="btn clay" onclick="addIdea()">记下这一条</button>
+      </div>
+    </div>
+
+    <div class="block">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px">
+        <h2 class="sec" style="margin:0">已记录</h2>
+        <div class="chips" style="margin-left:auto">
+          <button class="chip on" data-f="all" onclick="filter('all')">全部</button>
+          <button class="chip" data-f="strong" onclick="filter('strong')">强共鸣</button>
+          <button class="chip" data-f="mid" onclick="filter('mid')">中</button>
+          <button class="chip" data-f="weak" onclick="filter('weak')">弱</button>
+          <button class="chip" data-f="star" onclick="filter('star')">已标记</button>
+        </div>
+      </div>
+      <div id="i-list"></div>
+    </div>
+
+    <div class="block">
+      <div class="card" style="background:linear-gradient(180deg,#fff,#FDFAF6)">
+        <h2 class="sec">什么样的观察才算够格</h2>
+        <div class="g2" style="margin-top:18px">
+          <div><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">要找「凑合」</h3><p style="font-size:13.5px;color:var(--ink2)">用砖头压纸、用夹子改风向、用橡皮筋缠线。人们在将就,说明没人认真为它设计过。<b>越笨拙,机会越大。</b></p></div>
+          <div><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">不要找「图案」</h3><p style="font-size:13.5px;color:var(--ink2)">一个好看的纹样、一句俏皮的方言字——这些不是观察,是素材。它们会把你直接拖回工艺品那条路上。</p></div>
+          <div><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">重量要在动作里</h3><p style="font-size:13.5px;color:var(--ink2)">文化重量应该藏在「怎么被使用」里,不放在表面上。看不出是文创,但天天在用——这才是你要的。</p></div>
+          <div><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">优先结构问题</h3><p style="font-size:13.5px;color:var(--ink2)">线缆怎么收、东西怎么立、怎么拆、怎么换。结构问题能用工业语言优雅解决,而且不需要任何图案。</p></div>
+        </div>
+        <div class="note">起手的种子:药片分装、线缆整理、风扇改风向、包装盒二次使用、桌脚垫纸、手机支架的民间发明、遥控器套袋、一次性袋子的长期使用、冰箱门信息板、旧牙刷的二次生命、用重物压纸、外卖袋当垃圾袋。</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="t-src" style="display:none">
+    <div class="block" id="src-box"></div>
+    <div class="card" style="margin-top:22px">
+      <h2 class="sec">怎么用这些站</h2>
+      <div class="g3" style="margin-top:16px">
+        <div><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">带着问题去</h3><p style="font-size:13.5px;color:var(--ink2)">不要漫无目的刷。打开前先想清楚:今天找的是形态语言、材料,还是叙事方式。</p></div>
+        <div><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">存的时候写一句</h3><p style="font-size:13.5px;color:var(--ink2)">存进观察库,附一句「为什么存它」。没写这句话的收藏,三个月后等于没存。</p></div>
+        <div><h3 style="font-size:14.5px;font-weight:600;margin-bottom:6px">优先读文字</h3><p style="font-size:13.5px;color:var(--ink2)">带长文的站比纯图站值钱得多。文字给判断力,图只给形式。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="t-st" style="display:none">
+    <div class="block">
+      <div class="card goo" style="background:linear-gradient(180deg,#fff,#FDF9EF);margin-bottom:18px">
+        <h2 class="sec">在 IEGG 能偷到的东西</h2>
+        <div class="sec-d" style="margin-bottom:0">你说至少做到 10 月——那就按<b>10 月底可能走人</b>来排。网页那部分必须在那之前拿到手,走之前勾不完的,就是带不走的。最后一组是离职前无论如何要办的三件事。</div>
+        <div id="st-stat" style="margin-top:18px"></div>
+      </div>
+      <div class="card" id="st-list"></div>
+      <div class="note" style="margin-top:18px;border:none;padding-top:0">最关键的一条是「<b>看实现与设计稿的差距</b>」。出完稿别走,等前端实现完,盯着看哪里不一样、为什么不一样。这一课比任何教程都值钱,而且只有你在实习岗位上才上得了。</div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENDA -->
+<section class="page" id="p-agenda">
+  <div class="ph">
+    <svg class="ph-ico" width="150" height="150" viewBox="0 0 150 150">
+      <circle cx="75" cy="75" r="42" fill="none" stroke="#B8873F" stroke-width="1.2" opacity=".5"/>
+      <path d="M75 41v34l23 14" fill="none" stroke="#B8873F" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="75" cy="75" r="3.5" fill="#B8873F"/>
+      <path d="M75 26v-7M121 75h7M75 124v7M29 75h-7" stroke="#DFA62C" stroke-width="2" opacity=".6"/>
+      <path d="M108 42l5-5M42 108l-5 5M108 108l5 5M42 42l-5-5" stroke="#DFA62C" stroke-width="1.6" opacity=".38"/>
+    </svg>
+    <div class="eyebrow">05 火候 · AGENDA</div>
+    <h1 class="ph-t">时间<br>就是火候。</h1>
+    <p class="ph-d">日程 · 全职实习最怕时间撞车。往里加日程,系统自动标出重叠时段——红色描边就是冲突。</p>
+  </div>
+
+  <div class="block g2">
+    <div class="card">
+      <h2 class="sec">加一个日程</h2>
+      <div class="field" style="margin-top:16px"><label class="lab">名称</label><input class="inp" id="a-t" placeholder="IEGG 周会 / 导师见面 / 旧货市场调研"></div>
+      <div class="row2">
+        <div class="field"><label class="lab">日期</label><input class="inp" type="date" id="a-d"></div>
+        <div class="field"><label class="lab">类型</label><select class="inp" id="a-ty"><option value="work">实习</option><option value="grad" selected>毕设</option><option value="course">课程 / 学校</option><option value="life">个人</option></select></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label class="lab">开始</label><input class="inp" type="time" id="a-s" value="19:00"></div>
+        <div class="field"><label class="lab">结束</label><input class="inp" type="time" id="a-e" value="21:00"></div>
+      </div>
+      <button class="btn clay" onclick="addEv()">加进时间表</button>
+      <div class="clash-warn" id="a-warn"></div>
+    </div>
+    <div class="card">
+      <h2 class="sec">本周负荷</h2>
+      <div class="sec-d">看看这周给了毕设多少时间。</div>
+      <div id="a-stat" style="margin-top:16px"></div>
+      <div class="note">周工时低于 12 小时,进度会跟不上;低于 8 小时,这个月基本白给。挤不出来时优先保周六的实地调研——那是别人替代不了、也没法在电脑上补的部分。</div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px">
+      <h2 class="sec" style="margin:0" id="wk-title">本周</h2>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button class="btn ghost sm" onclick="wkMove(-1)">上一周</button>
+        <button class="btn ghost sm" onclick="wkMove(0)">回到本周</button>
+        <button class="btn ghost sm" onclick="wkMove(1)">下一周</button>
+      </div>
+    </div>
+    <div class="wk-scroll"><div class="wk" id="wk"></div></div>
+    <div style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink3)">
+      <span class="tag blue">实习</span><span class="tag clay">毕设</span><span class="tag sage">课程</span><span class="tag plum">个人</span>
+    </div>
+  </div>
+</section>
+
+<!-- ME -->
+<section class="page" id="p-me">
+  <div class="ph">
+    <svg class="ph-ico" width="150" height="150" viewBox="0 0 150 150">
+      <path d="M40 46h70v30H40z" fill="#F2E5C9" stroke="#B8873F" stroke-width="1.2"/>
+      <path d="M40 76h70c0 18-16 30-35 30S40 94 40 76z" fill="#FBE9B8" stroke="#B8873F" stroke-width="1.2"/>
+      <path d="M40 60h70" stroke="#B8873F" stroke-width="1" opacity=".3"/>
+      <circle cx="58" cy="54" r="3.4" fill="#B8873F" opacity=".22"/>
+      <circle cx="92" cy="52" r="2.4" fill="#B8873F" opacity=".18"/>
+      <path d="M75 76c5 7 5 15 0 21" stroke="#DFA62C" stroke-width="1.6" opacity=".5" fill="none"/>
+    </svg>
+    <div class="eyebrow">06 这块芝士 · PROFILE</div>
+    <h1 class="ph-t">你就是<br>这块芝士。</h1>
+    <p class="ph-d">我 · 技能画像会实时算出五个方向的匹配度和<u>你缺什么</u>,并按熟练度分成<b>外壳</b>与<b>流心</b>。决策卡让论文和设计互为证据。书单和备份也在这。</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" data-m="skill" onclick="mtab('skill')">技能画像</button>
+    <button class="tab" data-m="dec" onclick="mtab('dec')">决策卡</button>
+    <button class="tab" data-m="book" onclick="mtab('book')">书单</button>
+    <button class="tab" data-m="data" onclick="mtab('data')">云同步</button>
+  </div>
+
+  <div id="m-skill">
+    <div class="block g2">
+      <div class="card">
+        <h2 class="sec">基本信息</h2>
+        <div class="row2" style="margin-top:16px">
+          <div class="field"><label class="lab">名字</label><input class="inp" id="m-name" placeholder="怎么称呼你"></div>
+          <div class="field"><label class="lab">专业方向</label><input class="inp" id="m-major" placeholder="工业设计学院 · 平面视觉"></div>
+        </div>
+        <div class="field"><label class="lab">当前状态</label><input class="inp" id="m-now" placeholder="腾讯 IEGG 视觉设计 · 全职实习"></div>
+        <div class="field"><label class="lab">一句话设计理念</label><textarea class="inp" id="m-idea" placeholder="干净、简约、工业感;把难做的文创做贴近生活"></textarea></div>
+      </div>
+      <div class="card">
+        <h2 class="sec">爱好</h2>
+        <div class="sec-d">爱好会加分到特定方向。比如「逛旧货市场」对日常物再设计是强加分。</div>
+        <div class="chips" id="hob" style="margin-top:14px"></div>
+      </div>
+    </div>
+
+    <div class="block card">
+      <h2 class="sec">技能熟练度</h2>
+      <div class="sec-d">拖动滑块,下面的匹配结果实时变化。0 表示完全不会——系统会把缺失的核心技能算成减分项,不糊弄你。</div>
+      <div id="skills" style="margin-top:18px"></div>
+      <div id="cheese"></div>
+      <div style="margin-top:18px;display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+        <div style="flex:1;min-width:180px"><label class="lab">加一个自定义技能</label><input class="inp" id="sk-new" placeholder="比如:丝网印 / 装帧 / ComfyUI"></div>
+        <button class="btn ghost" onclick="addSkill()">添加</button>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2 class="sec">方向匹配</h2>
+      <div class="sec-d" id="m-sum">填完上面的技能,这里会实时算出五个方向的匹配度。</div>
+      <div id="dirs"></div>
+      <div class="note" style="margin-top:28px">匹配度不是让你选「最容易的」,是让你看清「每个方向的代价」。最高分通常是你已有优势的;但如果你愿意为毕设学一项新技能,看第二、三名的缺口是不是你真心想补的——大四补一项,时间正好够。</div>
+    </div>
+  </div>
+
+  <div id="m-dec" style="display:none">
+    <div class="block">
+      <h2 class="sec">决策卡</h2>
+      <div class="sec-d">每做一个设计决策记一张:为什么这么做,对应论文哪一章。积累下来,论文的「设计实践」章和答辩素材都是现成的。</div>
+      <div class="card" style="margin-bottom:18px">
+        <div class="row3">
+          <div class="field"><label class="lab">日期</label><input class="inp" type="date" id="dc-d"></div>
+          <div class="field"><label class="lab">对应论文章节</label><select class="inp" id="dc-c"><option>理论基础</option><option>设计调研</option><option selected>设计实践</option><option>设计评估</option><option>结论</option></select></div>
+          <div class="field"><label class="lab">关键词</label><input class="inp" id="dc-k" placeholder="材料 / 结构 / 色彩"></div>
+        </div>
+        <div class="field"><label class="lab">做了什么决策</label><input class="inp" id="dc-t" placeholder="把手电筒的开关改成拉绳"></div>
+        <div class="field"><label class="lab">为什么 · 这一栏是论文的肉</label><textarea class="inp" id="dc-w" placeholder=""></textarea></div>
+        <button class="btn clay" onclick="addDec()">记一张</button>
+      </div>
+      <div id="dec-list"></div>
+    </div>
+  </div>
+
+  <div id="m-book" style="display:none">
+    <div class="block g2">
+      <div class="card">
+        <h2 class="sec">加一本</h2>
+        <div class="field" style="margin-top:16px"><label class="lab">书名</label><input class="inp" id="b-t" placeholder="设计的生态学"></div>
+        <div class="row2">
+          <div class="field"><label class="lab">作者</label><input class="inp" id="b-a" placeholder="深泽直人"></div>
+          <div class="field"><label class="lab">分类</label><select class="inp" id="b-c"><option>必读</option><option>理论</option><option>案例</option><option>方法</option><option>素材</option><option>其他</option></select></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label class="lab">状态</label><select class="inp" id="b-s"><option value="want">想读</option><option value="doing" selected>在读</option><option value="done">已读</option></select></div>
+          <div class="field"><label class="lab">进度 %</label><input class="inp" type="number" id="b-p" value="0" min="0" max="100"></div>
+        </div>
+        <div class="field"><label class="lab">笔记 · 可摘一句能进论文的</label><textarea class="inp" id="b-n" placeholder=""></textarea></div>
+        <button class="btn clay" onclick="addBook()">加入书单</button>
+      </div>
+      <div class="card">
+        <h2 class="sec">阅读进度</h2>
+        <div class="sec-d">必读三本没读完,开题会很被动。</div>
+        <div id="b-stats" style="margin-top:16px"></div>
+        <div class="note">《设计的生态学》是第一本。它把可供性(Affordance)和生态心理学讲透——这是无意识设计真正的理论地基。读完,你就能解释清楚「为什么这个设计是对的」,这正是答辩时评委最想听的。</div>
+      </div>
+    </div>
+    <div class="block">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px">
+        <h2 class="sec" style="margin:0">全部书单</h2>
+        <div class="chips" style="margin-left:auto">
+          <button class="chip on" data-b="all" onclick="bFilter('all')">全部</button>
+          <button class="chip" data-b="want" onclick="bFilter('want')">想读</button>
+          <button class="chip" data-b="doing" onclick="bFilter('doing')">在读</button>
+          <button class="chip" data-b="done" onclick="bFilter('done')">已读</button>
+        </div>
+      </div>
+      <div id="b-list"></div>
+    </div>
+  </div>
+
+  <div id="m-data" style="display:none">
+    <div class="block g2">
+      <div class="card">
+        <h2 class="sec">备份</h2>
+        <div class="sec-d">所有数据只存在这台电脑的浏览器本地。清缓存、换电脑、换浏览器都会丢。定期导出一份放着。</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+          <button class="btn clay" onclick="expData()">导出 JSON 备份</button>
+          <button class="btn ghost" onclick="copyData()">复制 JSON</button>
+          <button class="btn ghost" onclick="document.getElementById('imp-f').click()">从文件导入</button>
+          <button class="btn ghost" onclick="uiPasteBox()">粘贴导入</button>
+          <input type="file" id="imp-f" accept=".json" style="display:none" onchange="impData(this)">
+        </div>
+        <div class="note">导出的文件包含全部记录:观察、评分、候选选题、导师、沟通日志、决策卡、书单、日程、技能画像。图片也包含在内,所以文件可能有点大。<br>
+        <span style="color:var(--ink3)">手机上「导出」会调系统分享面板,可以直接存网盘或发微信。<b>如果存不下来,改用「复制 JSON」</b> —— 它一定弹得出来,复制后粘到备忘录,需要时用「粘贴导入」拿回来。</span></div>
+      </div>
+      <div class="card">
+        <h2 class="sec">数据概览</h2>
+        <div id="d-stat" style="margin-top:16px"></div>
+        <button class="btn danger sm" style="margin-top:18px" onclick="wipe()">清空全部数据</button>
+        <div class="hint">清空不可撤销。先导出。</div>
+      </div>
+    </div>
+
+    <div class="block card">
+      <h2 class="sec">云同步</h2>
+      <div class="sec-d">填好之后,电脑和手机就是同一份数据,自动双向。没填之前,一切照旧存在本地。</div>
+      <div class="row2">
+        <div class="field"><label class="lab">云开发环境 ID</label><input class="inp" id="sy-env" placeholder="比如 banshu-1a2b3c4d"></div>
+        <div class="field"><label class="lab">集合名 / 表名</label><input class="inp" id="sy-col" placeholder="banshu_plan" oninput="if(typeof onDbTypeChange==='function')onDbTypeChange()"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label class="lab">邮箱</label><input class="inp" id="sy-mail" type="email" placeholder="两台设备登录同一个" autocomplete="username"></div>
+        <div class="field"><label class="lab">密码</label><input class="inp" id="sy-pwd" type="password" placeholder="至少 8 位" autocomplete="current-password"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:10px 13px;margin-bottom:12px;
+        background:var(--sage-bg);border:1px solid rgba(126,148,132,.35);border-radius:9px;font-size:12.5px;color:var(--ink2)">
+        <span style="font-size:11px;font-weight:600;color:#fff;background:var(--sage);padding:3px 9px;border-radius:100px">已锁定</span>
+        <span>数据库类型 <b>PostgreSQL</b> · 已按你的 CloudBase 环境写死,不用选也不会选错</span>
+      </div>
+      <div class="hint" id="pg-tip" style="margin:-6px 0 14px;font-size:12px;line-height:1.55"></div>
+      <div class="hint" style="margin:-6px 0 14px">换设备只要登录同一个账号,不用记同步码。<b>第一次点「注册并连接」,之后点「登录」。</b>密码不存明文,只在本地保留登录态。<br>
+        <b style="color:var(--clay)">密码要求</b>:至少 8 位、必须同时含<b>字母</b>和<b>数字</b>。<b>只输数字或只输字母,CloudBase 都会拒绝</b>。<br>
+        <b style="color:var(--clay)">之前试过没成功?</b>先去控制台「<b>用户管理</b>」看一眼账号列表 —— 如果里面有你的邮箱,说明已经注册过,但密码记错了。直接<a href="#" onclick="resetCloudAccount();return false" style="color:var(--clay);text-decoration:underline;border-bottom:1px solid">点这里强制重置</a>(会把这个账号删掉,你重新注册一个)。</div>
+      <label style="display:flex;align-items:center;gap:9px;font-size:13.5px;margin-bottom:16px;cursor:pointer">
+        <input type="checkbox" id="sy-auto" style="width:16px;height:16px;accent-color:var(--clay)"> 自动同步(改完 1.5 秒自动上传,打开和切回来时自动拉取)
+      </label>
+      <div style="display:flex;gap:9px;flex-wrap:wrap">
+        <button class="btn clay" onclick="doLogin(1)">注册并连接</button>
+        <button class="btn ghost" onclick="doLogin(0)">登录</button>
+        <button class="btn ghost" onclick="doLogout()">登出</button>
+        <button class="btn ghost" onclick="Sync.pull(true)">强制拉取</button>
+        <button class="btn ghost" onclick="Sync.push()">强制上传</button>
+      </div>
+      <div id="sy-state" style="margin-top:18px"></div>
+      <div style="margin-top:12px;display:flex;gap:9px;flex-wrap:wrap">
+        <button class="btn ghost" onclick="runDiag()" style="border-color:var(--clay);color:var(--clay)">连不上?一键自检</button>
+        <button class="btn ghost" onclick="copyDiag()">复制自检结果</button>
+        <button class="btn ghost" onclick="runAudit()" style="border-color:var(--sage);color:var(--sage)">云端体检(看数据库乱没乱)</button>
+      </div>
+      <pre id="diag-out" style="display:none;margin:11px 0 0;padding:11px 13px;background:#FCF7EA;border:1px solid var(--line);
+        border-radius:9px;font-size:11.5px;line-height:1.65;white-space:pre-wrap;word-break:break-all;max-height:340px;overflow:auto;user-select:all"></pre>
+      <details class="note" style="margin-top:14px">
+        <summary style="cursor:pointer;font-size:13px;color:var(--ink3);user-select:none">第一次用?点开看 5 步开通流程 →</summary>
+        <div style="margin-top:10px;font-size:12.5px;line-height:1.7">
+          <b>开通步骤 · 约五分钟,免费额度够用到毕业</b><br>
+          1. cloud.tencent.com → 云开发 CloudBase → 开通后<b>新建环境</b>(按量计费,有免费额度)<br>
+          2. 「数据库」→ <b>SQL 编辑器</b>(PG 模式)/ 新建集合(文档型模式)→ 起名 <code style="background:#F0EAD8;padding:1px 5px;border-radius:3px">banshu_plan</code>(建别的名字就在上面「集合名」填那个)<br>
+          3. 「登录授权」→ 开启 <b>邮箱登录</b>,并把 <b>邮箱验证关掉</b>(不关注册后要点邮件链接)<br>
+          4. 「环境总览」→ 复制环境 ID 填上面<br>
+          5. 第一次点「注册并连接」,之后点「登录」就行<br>
+          <span style="color:var(--ink3)">密码要求:至少 8 位,含字母和数字。集合名只影响数据,不影响登录。</span>
+        </div>
+      </details>
+      <div style="margin-top:14px;padding:12px 14px;background:#FDF6F4;border:1px solid #EAD9D3;border-radius:9px;font-size:12.5px;line-height:1.7">
+        <b style="color:#B45B4B">连不上,99% 是下面两条之一</b><br>
+        <b>① 用 file:// 打开的。</b>浏览器禁止这种页面联网,登录和同步<b>必然</b>失败,跟账号密码无关。换 http/https 网址打开就行。<br>
+        <b>② 域名没进白名单。</b>去控制台「环境 → 安全配置 → WEB 安全域名」把当前域名加进去,约 10 分钟生效。当前域名:<code id="cur-host" style="background:#F5E6E2;padding:1px 5px;border-radius:3px">读取中</code><br>
+        <span style="color:var(--ink3)">最省事的办法:把 index.html 传到 CloudBase「静态网站托管」,用系统给的 <b>https://xxx.tcloudbaseapp.com</b> 打开 —— 这个域名自带白名单,不用配。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="mask" id="mask" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal"></div>
+</div>
+<nav class="tabbar" id="tabbar"></nav>
+
+<script src="lib/cloudbase.js"></script>
+<script>
+const K='shunshou_grad_v2';
+const NAVS=[['home','半熟','01','首页'],['plan','烘焙表','02','计划'],['select','定型','03','选题'],
+  ['inspire','配料表','04','灵感'],['agenda','火候','05','日程'],['me','这块芝士','06','我']];
+
+const TAB_ICONS={
+home:'<circle cx="10" cy="9" r="6.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 9c-1.6 1.5-1.6 3.2 0 4.6" fill="currentColor" opacity=".4"/><circle cx="6" cy="7" r=".8" fill="currentColor" opacity=".3"/><circle cx="13.5" cy="6" r=".6" fill="currentColor" opacity=".3"/>',
+plan:'<rect x="8.5" y="2.5" width="3" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="10" cy="13.5" r="2.4" fill="currentColor" opacity=".45"/><path d="M10 4.5v8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>',
+select:'<path d="M4 6h12l-1.3 11H5.3z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 6c0-1.6 2-2.8 4.5-2.8S14.5 4.4 14.5 6" fill="currentColor" opacity=".4"/>',
+inspire:'<path d="M2 10h16c0 4.5-3.4 7.4-8 7.4S2 14.5 2 10z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="7" cy="8" r="1.1" fill="currentColor" opacity=".5"/><circle cx="10.5" cy="7" r=".85" fill="currentColor" opacity=".4"/><circle cx="13" cy="8.5" r=".7" fill="currentColor" opacity=".35"/>',
+agenda:'<circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 5.2v4.8l3.2 2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M10 1.5v1.5M10 17v1.5M1.5 10h1.5M17 10h1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".5"/>',
+me:'<circle cx="10" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 17.2c0-3.4 3.1-5.6 7-5.6s7 2.2 7 5.6" fill="none" stroke="currentColor" stroke-width="1.4"/>'
+};
+const TAB_NAMES={home:'半熟',plan:'烘焙',select:'定型',inspire:'配料',agenda:'火候',me:'芝士'};
+
+const STEAL=[
+ {g:'网页设计 · 零代码路径',l:[
+  {t:'要一份前端交付规范',d:'直接问前端:「你们接设计稿时,最希望我标注清楚什么?」问到的断点、栅格、间距系统、切图倍率、SVG 规范,是外面要学三个月的东西。'},
+  {t:'翻内部组件库和设计规范',d:'IEGG 有设计规范文档和组件库的话直接看。看大厂怎么处理响应式、状态、间距节奏,教科书级。'},
+  {t:'主动接一个网页需求',d:'哪怕只改版一个小活动页。运营素材做得再多也只是图,网页要处理结构、层级、适配。做一次就入门。'},
+  {t:'看实现与设计稿的差距',d:'出完稿别走,等前端实现完,盯着看哪里不一样、为什么不一样。这是最贵的一课,比任何教程都管用。'},
+  {t:'补六个概念',d:'12 栅格 / 8pt 间距系统 / 三档响应式断点 / 字体层级 / WebP 与 SVG 的取舍 / 首屏加载。这六个不懂,交付就是挨骂。'},
+  {t:'选定零代码工具',d:'推荐 Framer:Figma 式操作,直接发布,不需要开发。备选 Webflow、即时设计。11 月前定下来,别拖。'}
+ ]},
+ {g:'AIGC · 这是你碾压同龄人的地方',l:[
+  {t:'把 prompt 沉淀成库',d:'你现在每天在用的提示词,整理成可复用的结构化文档。这就是论文「设计方法」那一章的原创内容。'},
+  {t:'练可控生成',d:'ControlNet、参考图控制、风格锁定。只会抽卡不够,毕设需要的是「我要这个场景的 20 个变体」。'},
+  {t:'用 AI 做调研推演',d:'观察记录全部生成场景图,快速可视化。这个产出密度手绘做不到,是你的独特优势。'},
+  {t:'别让最终稿有 AI 味',d:'评委对 AI 生成图的容忍度很低。AI 用来做推演和草模,最终视觉必须人工收敛、人工执行。'},
+  {t:'别把 AI 当风格',d:'「我用 AI 生成了一百张图」不是设计,是筛选。没有明确的筛选标准,这就是偷懒。'},
+  {t:'搞清楚版权口径',d:'AI 素养课上直接问老师:毕设里用 AI 到什么程度需要标注、会不会影响评分。问清楚再动手。'}
+ ]},
+ {g:'离职前必须拿走的',l:[
+  {t:'跟 leader 报备大四回校节点',d:'4 月底到 5 月要回来布展答辩。现在就说,不要临时开口。态度主动的人后面请假不会被卡。'},
+  {t:'存一份你自己的作品源文件',d:'离职后就没有权限了。所有你做过的、觉得能进作品集的,现在就开始存。'},
+  {t:'留下一个能联系到的人',d:'前端、或者带你的人。以后网页上遇到问题,有人能问一句,比自己查三天强。'}
+ ]}
+];
+
+const DIM=[
+ {k:'reso',n:'共鸣强度',w:1.0,d:'说出口的那一秒,对方是不是「哦对!我也这样」。找 5 个人试,至少 4 个人有反应。'},
+ {k:'design',n:'可设计性',w:1.0,d:'能不能找到一个物质载体?纯行为做不出作品。要能落成实物、包装,或一套图形系统。'},
+ {k:'culture',n:'文化真实性',w:0.8,d:'重量是真的还是硬贴的?文化的重量应该藏在动作里,不在图案上。'},
+ {k:'volume',n:'体量够撑',w:0.9,d:'撑得起 8000 字论文 + 一套视觉系统 + 1–2 件实物吗?只有一句话的点子,再妙也不够。'},
+ {k:'clumsy',n:'笨拙度',w:1.2,d:'现在人们怎么凑合解决它?越笨拙,说明越没人认真设计过——机会越大。',hot:true}
+];
+
+const SKILLS=[
+ {id:'research',n:'用户研究 / 田野调查'},
+ {id:'layout',n:'平面排版 / 版式'},
+ {id:'writing',n:'论文写作 / 理论梳理'},
+ {id:'aigc',n:'AIGC 生成 / 提示词'},
+ {id:'web',n:'网页设计 / UI'},
+ {id:'pack',n:'包装设计'},
+ {id:'craft',n:'手作 / 模型 / 打样'},
+ {id:'3d',n:'3D / C4D / Blender'},
+ {id:'photo',n:'摄影'},
+ {id:'illus',n:'插画 / 手绘'},
+ {id:'brand',n:'品牌视觉 / VI'},
+ {id:'motion',n:'动效 / Motion'},
+ {id:'type',n:'字体设计'},
+ {id:'social',n:'社媒运营 / 内容'}
+];
+
+const DIRS=[
+ {id:'d1',n:'日常物的再设计',
+  d:'挑一个文化重量重、但日常高频的物件重做一遍——药盒、香器、筷枕、砚台、收纳。核心是让它进入现代桌面,而不是变成摆件。这最贴合你「把重做轻」的诉求。',
+  w:{research:3,craft:3,layout:2,'3d':2,photo:2,pack:1,writing:1},
+  r:'最容易滑向「新中式工艺品」。守住工业语言:少装饰、靠结构、靠材料、靠尺寸关系说话。每做一步问自己:它看起来像设计,还是像礼品?'},
+ {id:'d2',n:'行为研究型视觉系统',
+  d:'以行为观察为核心,产出一套图形语言系统 + 研究报告 + 图册。对全职实习最友好——调研可以碎片化完成,通勤路上都能推进。',
+  w:{research:3,layout:3,writing:3,photo:2,aigc:2,illus:1,brand:1,social:1},
+  r:'视觉冲击力偏弱,容易看起来像社会学作业而不是设计作品。要靠展陈和图形系统的质量硬拉回来。'},
+ {id:'d3',n:'印刷品与包装叙事',
+  d:'把文化行为装进纸品与包装——礼盒、茶盒、市集包装、说明书。供应链短、迭代快、单价低,本来就是平面设计师的主场。',
+  w:{pack:3,layout:3,craft:2,brand:2,illus:2,type:1,photo:1,writing:1},
+  r:'最容易沦为一个商业包装作业。守住「行为叙事」这条线——每一件东西都要能回答「它对应哪个动作」。'},
+ {id:'d4',n:'模块化与可替换系统',
+  d:'可换芯、可拆、可传代。可持续趋势的正中靶心,而且天生带工业感——结构就是造型,不需要任何图案。',
+  w:{'3d':3,craft:3,research:2,layout:2,illus:1,photo:1,writing:1},
+  r:'结构复杂度高,打样周期长,对全职实习的人是最紧的一档。只给自己两轮打样机会,11 月就把供应链问清楚。'},
+ {id:'d5',n:'数字叙事与网页',
+  d:'做一个沉浸式网站承载毕设,顺带成为可直接投递的求职作品集。把实习里学的网页知识逼出来。',
+  w:{web:3,aigc:3,motion:2,layout:2,writing:1,social:1},
+  r:'可能被质疑「不像产品设计」。动手前先确认学院对毕设交付形式的要求,别做完才发现不合规范。'}
+];
+
+const HOBBY=[
+ {n:'逛旧货市场 / 二手店',b:{d1:6,d2:3}},
+ {n:'收集癖',b:{d1:5,d2:4}},
+ {n:'逛街巷 / 城市漫步',b:{d2:6,d1:4}},
+ {n:'做饭 / 烘焙',b:{d2:5,d3:3}},
+ {n:'收纳 / 整理',b:{d1:6,d4:4}},
+ {n:'拆东西 / 看结构',b:{d4:6,d1:4}},
+ {n:'摄影',b:{d2:4,d1:3}},
+ {n:'看展 / 逛美术馆',b:{d2:3,d1:3}},
+ {n:'读书 / 写作',b:{d2:6,d1:3}},
+ {n:'打游戏',b:{d5:6,d3:2}},
+ {n:'手工 / DIY',b:{d4:6,d1:5}},
+ {n:'追剧 / 看电影',b:{d5:3,d2:2}},
+ {n:'养宠物',b:{d2:4,d1:3}},
+ {n:'穿搭 / 时尚',b:{d3:3,d1:3}},
+ {n:'运动 / 户外',b:{d4:3,d2:2}},
+ {n:'组织活动 / 社交',b:{d2:3,d5:2}}
+];
+
+const BOOKS0=[
+ {t:'设计的生态学',a:'深泽直人 · 后藤武 · 山中俊治',c:'必读',s:'want',p:0,n:'Affordance 与生态心理学的地基。读完你论文的第二章就有了骨架。第一本读它。'},
+ {t:'设计的轮廓',a:'深泽直人',c:'必读',s:'want',p:0,n:'案例密集,直接对应「无意识」的具体操作。带着你的观察库对照看。'},
+ {t:'由内向外看世界',a:'佐藤大 · nendo',c:'必读',s:'want',p:0,n:'nendo 的方法论核心:找到因为太常见而被忽略的东西,给它一个小转折。'},
+ {t:'日常生活实践',a:'米歇尔·德·塞托',c:'理论',s:'want',p:0,n:'讲普通人如何通过使用方式重新占有物品——和无意识设计是同一件事的两种说法。学术分量重,读前两章就够。'},
+ {t:'设计心理学 1',a:'唐纳德·诺曼',c:'理论',s:'want',p:0,n:'Affordance 的通俗版。觉得《设计的生态学》太硬,先用这本垫。'},
+ {t:'设计中的设计',a:'原研哉',c:'其他',s:'want',p:0,n:'理念层面。别在调研阶段读,写论文那一节时再翻。'}
+];
+
+const MS0=[
+ {d:'2026-09-20',n:'导师双选 · 摸清候选导师',w:'第一次见面必问:他接不接受学生全职实习',hot:true},
+ {d:'2026-10-15',n:'导师双选结果确定 *',w:'日期待向教务核实。定不下来,后面全没法排'},
+ {d:'2026-10-31',n:'观察记录积累到 30 条',w:'到 30 条就可以开始评分,不用等满 100'},
+ {d:'2026-10-31',n:'评估实习:走还是留',w:'至少做到 10 月。月底算一次账:偷到了什么、强度可不可控、毕设还能不能推进',hot:true},
+ {d:'2026-10-31',n:'实习偷师清单勾完',w:'如果 10 月底离职,这份清单必须在走之前拿完。见配料表',hot:true},
+ {d:'2026-11-15',n:'必读三本读完',w:'论文的第二章能不能立住,就看这三本'},
+ {d:'2026-11-20',n:'带 2–3 个候选见导师',w:'永远带 3 个去让他选,不要带 1 个去赌'},
+ {d:'2026-11-25',n:'关键词查重做一遍',w:'淘宝 / 设计奖 / 专利 / 知网,四样都查完再定'},
+ {d:'2026-12-05',n:'开题答辩 *',w:'提前两周把报告给他看。日期待核实'},
+ {d:'2026-12-20',n:'供应链询价完成',w:'找 2–3 家本地印刷 / 亚克力 / 丝网印,问清周期与单价'},
+ {d:'2027-01-15',n:'寒假开始 · 全量执行',w:'全年唯一整块时间。这之前必须消灭全部不确定性'},
+ {d:'2027-03-10',n:'中期检查 *',w:'此时必须有可看的东西,不能只有方案'},
+ {d:'2027-04-15',n:'打样与印刷',w:'预算 2000–4000。完成度是评分硬指标'},
+ {d:'2027-05-15',n:'毕业展 *',w:'提前一个月向 IEGG 报备请假。现在就说'},
+ {d:'2027-05-25',n:'答辩 *',w:'演练至少 3 遍。讲「为什么」而不是「我做了什么」'}
+];
+
+const PHASES=[
+ {w:'9–10 月',s:'P0 播种期',t:'选导师、建观察库、读完理论骨架',g:'交付:导师确定 + 30 条观察 + 文献综述初稿',
+  k:['<b>第一步是选导师,不是选题。</b>摸清候选导师的研究方向、带学生风格、往年成绩、对实习的态度','第一次见面必问:他接不接受学生全职实习。这一条决定你后面九个月','建立沟通节奏:每两周一次,哪怕只发三行','<b>在 IEGG 偷东西</b>:前端交付规范、组件库、一个网页需求、出完稿盯实现。按 10 月底可能走人来排(见配料表 · 实习偷师)','每天 1–3 条观察记录,只记动作不记物件,配 1 张照片','读完 3 本核心书,做结构化笔记','30 条就开始用五维评分台,不要等攒满 100']},
+ {w:'11–12 月',s:'P1 定题期',t:'筛选、候选、查重、开题',g:'交付:开题报告 + 开题答辩通过 + 视觉关键词板',
+  k:['用五维评分台筛掉低分,高分升格成 2–3 个候选','每个候选都要填「为什么放弃它」——答辩时评委一定会问','<b>关键词查重:淘宝 / 设计奖 / 专利 / 知网,四样都查</b>','11 月中带 3 个方案见导师,让他选,不要带 1 个去赌','开题答辩(预计 11 月底 / 12 月初),提前两周把报告给导师看','锁定工艺与供应链:找 2–3 家本地印刷 / 亚克力 / 丝网印','做视觉关键词板 + 字体 / 色彩 / 版式的 3 个备选方向']},
+ {w:'1–3 月',s:'P2 深水期',t:'寒假全量执行,把东西做出来',g:'交付:完整视觉系统 + 1–2 件实物 + 论文主体初稿',
+  k:['寒假 3–4 周按全职对待,每天 6–8 小时。这是全年产能的全部来源','<b>每做一个设计决策记一张决策卡</b>,对应到论文章节','视觉系统一次做全:主视觉 / 图形语言 / 字体 / 色彩 / 应用延展','实体部分打第一轮样,拍照,改,打第二轮样。只给自己两轮机会','论文主体:理论基础 + 设计调研 + 设计实践三章写完','3 月中期检查,此时必须有可看的东西','同步开始搭作品集网页,边做毕设边填内容']},
+ {w:'4–5 月',s:'P3 冲刺期',t:'制作、布展、答辩、上线',g:'交付:完成度拉满的展位 + 论文定稿 + 作品集网页上线',
+  k:['4 月正式打样与印刷,预留 2000–4000 元预算','<b>展位尺寸、能不能用电、有没有展具,10 月就该问上一届</b>','展板按展位实际尺寸出,先量尺寸再设计,不要最后套模板','布展细节:展台高度、灯光、说明卡、实物摆放、观众动线,提前画布展图','提前一个月向 IEGG leader 报备请假,4 月底到 5 月需要回校','毕业展 + 答辩(预计 5 月中下旬),答辩演练至少 3 遍','作品集网页同步上线,投递直接用']}
+];
+
+const SRCS=[
+ {c:'产品与工业',list:[
+  {n:'Designboom',u:'https://www.designboom.com',d:'1999 年创立于米兰,建筑 / 设计 / 艺术。四万五千篇文章,行业标杆。看它怎么组织一场展览报道。'},
+  {n:'Dezeen',u:'https://www.dezeen.com',d:'建筑、室内、产品,另有 Dezeen Japan 版。产品类的写法很克制,适合学叙事节奏。'},
+  {n:'Core77',u:'https://www.core77.com',d:'工业设计师社区,1995 至今。有论坛、赛事、工作室访问,工业设计圈的老根据地。'},
+  {n:'Red Dot 红点',u:'https://www.red-dot.org',d:'红点奖年鉴。产品类最权威的评判标尺——你做的东西要过什么样的眼,看这里。'},
+  {n:'iF Design',u:'https://ifdesign.com',d:'与红点并列的德国设计奖。它的评审维度拆得很细,适合拿来当自检表。'},
+  {n:'Good Design Award 日本优良设计奖',u:'https://www.g-mark.org',d:'与无意识设计的审美体系最接近的一个奖。看它的评审角度,能校准你的毕设评分预期。'},
+  {n:'AXIS',u:'https://www.axismag.jp',d:'日本设计杂志,有深度长文。文字密度高,是 Product + 观点的组合。'},
+  {n:'nendo',u:'https://www.nendo.jp',d:'佐藤大工作室官网。直接读原始案例与方法,别只读二手解读。'},
+  {n:'±0 深泽直人',u:'https://www.plusminuszero.jp',d:'深泽直人的品牌。无意识设计最直接的商业化样本,看它怎么处理「消解进生活」。'},
+  {n:'Yanko Design',u:'https://www.yankodesign.com',d:'产品概念量大,适合快速看趋势。缺点是良莠不齐,别当标准。'}
+ ]},
+ {c:'材料与趋势 · 工业感的关键',list:[
+  {n:'Material ConneXion',u:'https://www.materialconnexion.com',d:'全球最有名的材料库。工业设计的材料圣经——你想做出工业感,材料选对一半就赢了。'},
+  {n:'Materia',u:'https://www.materia.nl',d:'荷兰材料库,可按材料类型和属性检索。免费,比 Material ConneXion 好上手。'},
+  {n:'WGSN',u:'https://www.wgsn.com',d:'趋势预测机构,付费。<b>先问学校图书馆有没有订阅</b>——很多设计院校有,学生白用。'},
+  {n:'Trend Bible',u:'https://www.trendbible.com',d:'趋势报告机构,有免费的季度趋势摘要。看它怎么把趋势拆成色板、材料、形态。'},
+  {n:'Dezeen Trends',u:'https://www.dezeen.com/tag/trends/',d:'Dezeen 的趋势栏目。免费的、更新快、有判断,够用。'},
+  {n:'Wallpaper*',u:'https://www.wallpaper.com',d:'高端设计与生活方式。审美基准线偏商业,但图片与版面质量极高。'}
+ ]},
+ {c:'视觉与平面',list:[
+  {n:"It's Nice That",u:'https://www.itsnicethat.com',d:'创意社区,每篇都有创作者的创作思路。看「怎么讲自己的项目」。'},
+  {n:'Colossal',u:'https://www.thisiscolossal.com',d:'视觉文化,想象力向。适合在卡住的时候打开,找回「有趣」。'},
+  {n:'Slanted',u:'https://www.slanted.de',d:'德国字体 / 平面杂志。排版本身的参考,尤其是网格与层级处理。'},
+  {n:'The Dieline',u:'https://thedieline.com',d:'包装设计权威。走印刷品方向的话,这是必看的结构与工艺参考。'},
+  {n:'BP&O',u:'https://bpando.org',d:'品牌包装 + 有观点的评论文字。Richard Baird 的评论比作品更值钱。'},
+  {n:'Designspiration',u:'https://www.designspiration.com',d:'按颜色搜索作品。做色彩方案时效率最高。'},
+  {n:'Awwwards',u:'https://www.awwwards.com',d:'网页设计。极简交互作品集的参照系都在这,你要做的毕设站也一样。'}
+ ]},
+ {c:'观点与深度 · 有文字的',list:[
+  {n:'Design Observer',u:'https://designobserver.com',d:'设计界的《纽约书评》。长文、评论、学术。写论文累了来这里学怎么论证。'},
+  {n:'Eye Magazine',u:'https://www.eyemagazine.com',d:'平面设计评论季刊。文字质量极高,引用的好来源。'},
+  {n:'Design Issues',u:'https://direct.mit.edu/desi',d:'MIT Press 设计研究期刊。学术引用级别最高,论文里引一篇档次立升。'},
+  {n:'Typographica',u:'https://typographica.org',d:'字体评论。做中文字体处理时,看它怎么描述字体的性格。'},
+  {n:'Brand New',u:'https://www.underconsideration.com/brandnew/',d:'品牌改版的批评性分析。学它的批评框架,用在自己的方案自检上。'},
+  {n:'Design is History',u:'https://www.designishistory.com',d:'1450–2000 设计史档案。做文化类选题时用来定位坐标。'}
+ ]},
+ {c:'日常与生活研究',list:[
+  {n:'Spoon & Tamago',u:'https://www.spoon-tamago.com',d:'日本艺术与设计文化博客,英文写作,内容自有采编。做日常物的话,这是最该常开的站。'},
+  {n:'JAGDA 日本平面设计师协会',u:'https://www.jagda.or.jp',d:'日本平面设计年鉴。看日本设计师怎么处理「日常」这个母题。'},
+  {n:'MUJI 无印良品',u:'https://www.muji.com',d:'把无意识设计做成商业体系的样本。看它的商品文案,学怎么描述「理所当然」。'},
+  {n:'日本民艺馆 / 柳宗悦',u:'https://www.mingeikan.or.jp',d:'民艺运动的源头。「用之美」——和无意识设计是同一个精神谱系。'},
+  {n:'Tokyo Midtown Design',u:'https://www.tokyo-midtown.com/jp/design/',d:'DESIGNART 等东京设计活动的窗口。看当代日本设计在讨论什么。'}
+ ]}
+];
+
+const CHK=[
+ {n:'淘宝',s:'看有没有人在卖',u:q=>'https://s.taobao.com/search?q='+q},
+ {n:'Pinterest',s:'看视觉撞没撞',u:q=>'https://www.pinterest.com/search/pins/?q='+q},
+ {n:'Google 图片',s:'最广的一网',u:q=>'https://www.google.com/search?tbm=isch&q='+q},
+ {n:'Google 专利',s:'有没有人注册过',u:q=>'https://patents.google.com/?q='+q},
+ {n:'Red Dot',s:'获奖作品里有没有',u:q=>'https://www.red-dot.org/en/search/?q='+q},
+ {n:'iF Design',s:'另一个大奖',u:q=>'https://ifdesign.com/en/search?q='+q},
+ {n:'Behance',s:'有没有人做过',u:q=>'https://www.behance.net/search/projects?search='+q},
+ {n:'知网',s:'有没有人写过论文',u:q=>'https://kns.cnki.net/kns8s/defaultresult/index?kw='+q}
+];
+
+/* ---------- store ---------- */
+let S=load();
+function defState(){return{v:3,ideas:[],cands:[],mentors:[],mlog:[],decs:[],steal:{},
+  books:JSON.parse(JSON.stringify(BOOKS0)),tasks:{},
+  ms:JSON.parse(JSON.stringify(MS0)),ev:[],
+  profile:{name:'',major:'',now:'',idea:'',skills:{},hobbies:[]},custom:[]}}
+function load(){
+  const def={name:'',major:'',now:'',idea:'',skills:{},hobbies:[]};
+  let d=null;
+  try{const r=localStorage.getItem(K);if(r)d=JSON.parse(r)}catch(e){}
+  if(!d||typeof d!=='object')return defState();
+  const s=Object.assign(defState(),d);
+  s.profile=Object.assign({},def,d.profile||{});
+  ['ideas','cands','mentors','mlog','decs','books','ms','ev','custom'].forEach(k=>{if(!Array.isArray(s[k]))s[k]=[]});
+  ['tasks','steal','skills'].forEach(k=>{if(!s[k]||typeof s[k]!=='object')s[k]={}});
+  if(!s.profile.skills||typeof s.profile.skills!=='object')s.profile.skills={};
+  if(!Array.isArray(s.profile.hobbies))s.profile.hobbies=[];
+  // v2 → v3:补齐新增的里程碑
+  const have={};s.ms.forEach(m=>{have[m.n]=1});
+  MS0.forEach(m=>{if(!have[m.n])s.ms.push(JSON.parse(JSON.stringify(m)))});
+  s.ms.forEach(m=>{if(!m.id)m.id=uid()});
+  return s;
+}
+function save(silent){
+  if(!silent)S._t=Date.now();
+  try{localStorage.setItem(K,JSON.stringify(S))}catch(e){toast('保存失败:本地空间可能满了,先导出备份再删几张图')}
+  if(!silent&&Sync.ok&&SC.auto){clearTimeout(window._sp);window._sp=setTimeout(()=>Sync.push(),1500)}
+}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2400)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+/* ---------- 自定义弹窗(替代原生 confirm/alert) ----------
+   原生弹窗在 Capacitor WebView 里不居中、样式跟随系统、文案长了会被截断。
+   注意:原生 confirm 是同步阻塞的,这里改成回调形式,调用方要相应改写。 */
+let _onYes=null;
+function closeModal(){
+  const m=document.getElementById('mask');if(m)m.classList.remove('on');
+  const b=document.getElementById('modal');if(b)b.innerHTML='';
+  _onYes=null;
+}
+function uiAlert(msg,title){
+  const box=document.getElementById('modal'),mask=document.getElementById('mask');
+  box.innerHTML=`<div class="modal-t">${esc(title||'')}</div><div class="modal-b">${esc(msg||'')}</div>
+    <div class="modal-a"><button class="btn clay" onclick="closeModal()">好</button></div>`;
+  mask.classList.add('on');
+}
+// onYes / onNo 都是可选回调;danger=true 时主按钮变红
+function uiConfirm(msg,onYes,opt){
+  opt=opt||{};
+  const box=document.getElementById('modal'),mask=document.getElementById('mask');
+  _onYes=onYes||null;
+  const no=opt.noText||'取消', yes=opt.yesText||'确定';
+  box.innerHTML=`<div class="modal-t">${esc(opt.title||'确认一下')}</div><div class="modal-b">${esc(msg||'')}</div>
+    <div class="modal-a">
+      <button class="btn ghost" onclick="closeModal();${opt.onNo?'('+opt.onNo+')()':''}">${esc(no)}</button>
+      <button class="btn ${opt.danger?'danger':'clay'}" onclick="uiYes()">${esc(yes)}</button>
+    </div>`;
+  mask.classList.add('on');
+}
+function uiYes(){const f=_onYes;_onYes=null;closeModal();if(typeof f==='function')f()}
+// 显示一大段可复制文本(导出 JSON 在 WebView 里没法下载时的兜底方案)
+function uiCopyBox(title,text,tip){
+  const box=document.getElementById('modal'),mask=document.getElementById('mask');
+  box.innerHTML=`<div class="modal-t">${esc(title||'')}</div>
+    ${tip?`<div class="modal-b" style="margin-bottom:10px">${esc(tip)}</div>`:''}
+    <pre id="copybox">${esc(text)}</pre>
+    <div class="modal-a">
+      <button class="btn ghost" onclick="copyBoxText()">复制全部</button>
+      <button class="btn clay" onclick="closeModal()">关闭</button></div>`;
+  mask.classList.add('on');
+}
+function copyBoxText(){
+  const el=document.getElementById('copybox');if(!el)return;
+  const t=el.textContent;
+  const done=()=>toast('已复制 · 粘贴到微信收藏或备忘录');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(done).catch(()=>fallbackSel());
+  }else fallbackSel();
+  function fallbackSel(){
+    try{
+      const r=document.createRange();r.selectNodeContents(el);
+      const s=window.getSelection();s.removeAllRanges();s.addRange(r);
+      document.execCommand('copy');s.removeAllRanges();done();
+    }catch(e){toast('复制失败,请长按文字手动选择')}
+  }
+}
+
+/* ---------- nav ---------- */
+document.getElementById('navs').innerHTML=NAVS.map((n,i)=>
+  `<button class="nl${i===0?' on':''}" data-p="${n[0]}" title="${n[3]}" onclick="go('${n[0]}')"><span class="n">${n[2]}</span>${n[1]}</button>`).join('');
+function renderTabbar(){
+  const cur=document.querySelector('.nl.on')?.dataset.p;
+  document.getElementById('tabbar').innerHTML=NAVS.map(n=>
+    `<a data-p="${n[0]}" class="${n[0]===cur?'on':''}" onclick="go('${n[0]}')">${TAB_ICONS[n[0]]||''}<span>${TAB_NAMES[n[0]]||n[1]}</span></a>`).join('');
+}
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  document.querySelectorAll('.nl').forEach(n=>n.classList.toggle('on',n.dataset.p===id));
+  renderTabbar();
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='home')renderHome();
+  if(id==='agenda')renderWk();
+  if(id==='me'){renderDirs();renderDecs();renderCheese()}
+  if(id==='select'){renderMt();renderMl();renderCands();renderRate()}
+}
+
+const TODAY=new Date();TODAY.setHours(0,0,0,0);
+function d2s(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function s2d(s){const p=String(s).split('-');return new Date(+p[0],+p[1]-1,+p[2])}
+function diffDays(s){return Math.round((s2d(s)-TODAY)/86400000)}
+function phaseNow(){const m=TODAY.getMonth()+1;
+  if(m>=9&&m<=10)return 0;if(m===11||m===12)return 1;if(m>=1&&m<=3)return 2;return 3}
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const done=Object.values(S.tasks).filter(Boolean).length,total=PHASES.reduce((a,p)=>a+p.k.length,0);
+  const tp=total?Math.round(done/total*100):0;
+  const rated=S.ideas.filter(i=>i.score&&DIM.every(d=>typeof i.score[d.k]==='number')).length;
+  document.getElementById('s-idea').textContent=S.ideas.length;
+  document.getElementById('s-idea-b').style.width=Math.min(100,S.ideas.length)+'%';
+  document.getElementById('s-rate').textContent=rated;
+  document.getElementById('s-rate-b').style.width=Math.min(100,rated*3)+'%';
+  document.getElementById('s-task').textContent=tp+'%';
+  document.getElementById('s-task-b').style.width=tp+'%';
+  const nx=S.ms.filter(m=>diffDays(m.d)>=0).sort((a,b)=>a.d.localeCompare(b.d))[0];
+  if(nx){const d=diffDays(nx.d);
+    document.getElementById('s-day').textContent=d;
+    document.getElementById('s-day-l').textContent='天后 · '+nx.n.replace(' *','');
+    document.getElementById('s-day-b').style.width=Math.max(6,Math.min(100,(60-d)/60*100))+'%';
+  }else{document.getElementById('s-day').textContent='—';document.getElementById('s-day-l').textContent='所有节点已过';}
+  renderNowTopic();
+  const pi=phaseNow();
+  document.getElementById('h-phase').textContent=PHASES[pi].w+' · '+PHASES[pi].s;
+  document.getElementById('h-now').innerHTML=PHASES[pi].k.slice(0,4).map((t,i)=>
+    `<div class="tk${S.tasks[pi+'-'+i]?' done':''}" onclick="toggleTask('${pi}-${i}')"><i class="bx"></i><span>${t}</span></div>`).join('');
+  document.getElementById('h-ms').innerHTML=S.ms.slice().sort((a,b)=>a.d.localeCompare(b.d))
+    .filter(m=>diffDays(m.d)>=0).slice(0,4).map(m=>{
+      const d=diffDays(m.d);
+      return `<div class="ms"><div class="ms-d">${m.d.slice(5)}</div><div><div class="ms-t"><b>${esc(m.n)}</b></div><div class="ms-w">${esc(m.w||'')}</div></div><div class="ms-c${d<=30?' near':''}">${d} 天</div></div>`;
+    }).join('')||'<div class="empty">没有未来节点了</div>';
+}
+function toggleTask(id){S.tasks[id]=!S.tasks[id];save();renderPhases();renderHome()}
+function renderNowTopic(){
+  const el=document.getElementById('now-topic');if(!el)return;
+  const c=S.cands.filter(x=>x.status==='chosen')[0];
+  if(!c){
+    el.innerHTML='<div class="card goo" style="background:linear-gradient(180deg,#fff,#FDF9EF);display:flex;gap:18px;align-items:center;flex-wrap:wrap">'
+      +'<div><div class="eyebrow" style="margin-bottom:6px">当前选题</div>'
+      +'<div style="font-family:var(--serif);font-size:17px;color:var(--ink3);line-height:1.5">还没定。去「定型 → 候选板」挑一个,选完它会一直钉在这。</div></div>'
+      +'<button class="btn ghost sm" style="margin-left:auto" onclick="go(\'select\');stab(\'cand\')">去候选板</button>'
+      +mtBlock(false)+'</div>';
+    return;
+  }
+  el.innerHTML=`<div class="card goo" style="background:linear-gradient(180deg,#FDF3DC 0%,#FBF3E0 100%);border-color:#E8CE96">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span class="eyebrow" style="margin:0">当前选题</span><span class="tag clay">已选定</span>
+      <button class="btn ghost sm" style="margin-left:auto" onclick="go('select');stab('cand')">改 / 换</button>
+    </div>
+    <div style="font-family:var(--serif);font-size:23px;font-weight:600;margin-top:9px;line-height:1.4;color:#6E4E12">${esc(c.n)}</div>
+    ${c.o?`<div style="font-size:14px;color:#8A6320;margin-top:7px;line-height:1.7">${esc(c.o)}</div>`:'<div style="font-size:13px;color:#A08544;margin-top:7px">还没写一句话定位</div>'}
+    ${c.m?`<div style="font-size:12.5px;color:#9A7C30;margin-top:12px;padding-top:11px;border-top:1px dashed #E8CE96;line-height:1.7"><b>导师说</b> · ${esc(c.m)}</div>`:''}
+    ${mtBlock(true)}
+  </div>`;
+}
+// 首页选题卡片里的导师一行
+function mtBlock(onGold){
+  const m=chosenMt();
+  const dash=onGold?'1px dashed #E8CE96':'1px dashed var(--line)';
+  const base=`font-size:12.5px;margin-top:11px;padding-top:11px;border-top:${dash};display:flex;align-items:center;gap:9px;flex-wrap:wrap`;
+  if(m){
+    const bad=(m.w||'').indexOf('反对')>=0;
+    return `<div style="${base};${onGold?'color:#9A7C30':'color:var(--ink2)'}">
+      <b>导师</b><span>${esc(m.n)}${m.f?' · '+esc(m.f):''}</span>
+      ${bad?`<span style="color:#B45B4B;font-weight:600">对实习有保留</span>`:''}
+      <button class="btn ghost sm" style="margin-left:auto" onclick="go('select');stab('mt')">管理</button></div>`;
+  }
+  return `<div style="${base};color:var(--ink3)">
+    <b>导师</b><span>还没定 · 这是现在最该先定下来的一步</span>
+    <button class="btn ghost sm" style="margin-left:auto" onclick="go('select');stab('mt')">去定</button></div>`;
+}
+function quickAdd(){
+  const a=document.getElementById('q-act').value.trim(),
+        o=document.getElementById('q-obj').value.trim(),
+        w=document.getElementById('q-why').value.trim();
+  if(!a){toast('至少写一句动作');return}
+  S.ideas.unshift({id:uid(),date:d2s(TODAY),act:a,scn:'',obj:o,why:w,res:'mid',star:false,img:'',score:{}});
+  save();
+  ['q-act','q-obj','q-why'].forEach(i=>document.getElementById(i).value='');
+  toast('记下了 · 第 '+S.ideas.length+' 条');renderHome();
+}
+
+/* ---------- PLAN ---------- */
+let editMs=null;
+function renderMs(){
+  document.getElementById('ms-list').innerHTML=S.ms.slice().sort((a,b)=>a.d.localeCompare(b.d)).map(m=>{
+    const d=diffDays(m.d),past=d<0;
+    if(editMs===m.id){
+      return `<div class="ms-e">
+        <input class="inp" id="em-n" value="${esc(m.n)}">
+        <input class="inp" type="date" id="em-d" value="${m.d}">
+        <div style="display:flex;gap:6px">
+          <button class="btn sm" onclick="saveMs('${m.id}')">保存</button>
+          <button class="btn ghost sm" onclick="editMs=null;renderMs()">取消</button>
+        </div></div>`;
+    }
+    return `<div class="ms"><div class="ms-d">${m.d}</div>
+      <div><div class="ms-t"><b>${esc(m.n)}</b>${m.n.indexOf('*')>=0?' <span class="tag gold">待核实</span>':''}${m.hot?' <span class="tag clay">关键</span>':''}</div>${m.w?`<div class="ms-w">${esc(m.w)}</div>`:''}</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="ms-c${past?' past':(d<=30?' near':'')}">${past?'已过':d+' 天'}</span>
+        <button class="btn ghost sm" onclick="editMs='${m.id}';renderMs()">改</button>
+        <button class="btn danger sm" onclick="delMs('${m.id}')">删</button>
+      </div></div>`;
+  }).join('');
+}
+function saveMs(id){
+  const m=S.ms.find(x=>x.id===id);if(!m){editMs=null;return}
+  const n=document.getElementById('em-n'),dd=document.getElementById('em-d');
+  if(n&&n.value.trim())m.n=n.value.trim();
+  if(dd&&dd.value)m.d=dd.value;
+  editMs=null;save();renderMs();renderHome();toast('节点已更新');
+}
+function addMs(){
+  const n=document.getElementById('ms-n').value.trim(),d=document.getElementById('ms-d').value;
+  if(!n||!d){toast('名称和日期都要填');return}
+  S.ms.push({id:uid(),d,n,w:''});save();
+  document.getElementById('ms-n').value='';document.getElementById('ms-d').value='';
+  renderMs();renderHome();toast('节点已加');
+}
+function delMs(id){S.ms=S.ms.filter(m=>m.id!==id);save();renderMs();renderHome()}
+
+function renderPhases(){
+  const prev=[...document.querySelectorAll('.phase')].map(e=>e.classList.contains('open'));
+  document.getElementById('phases').innerHTML=PHASES.map((p,pi)=>{
+    const dn=p.k.filter((_,i)=>S.tasks[pi+'-'+i]).length;
+    const pc=Math.round(dn/p.k.length*100);
+    const open=prev.length===PHASES.length?prev[pi]:(pi===phaseNow());
+    return `<div class="phase${open?' open':''}" id="ph${pi}">
+      <div class="phase-h" onclick="this.parentNode.classList.toggle('open')">
+        <div class="phase-w">${p.w}<span>${p.s}</span></div>
+        <div><div class="phase-t">${p.t}</div><div class="phase-g">${p.g}</div></div>
+        <div class="phase-r"><div class="phase-p">${pc}%<small> ${dn}/${p.k.length}</small></div><span class="arw">▼</span></div>
+      </div>
+      <div class="phase-b">${p.k.map((t,i)=>
+        `<div class="tk${S.tasks[pi+'-'+i]?' done':''}" onclick="toggleTask('${pi}-${i}')"><i class="bx"></i><span>${t}</span></div>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ---------- SELECT : tabs ---------- */
+function stab(t){
+  document.querySelectorAll('[data-s]').forEach(b=>b.classList.toggle('on',b.dataset.s===t));
+  ['mt','rate','cand','dup'].forEach(k=>{document.getElementById('s-'+k).style.display=k===t?'':'none'});
+  if(t==='rate')renderRate();
+}
+
+/* mentor */
+const MT_S=['未知','放养','适中','严管'];
+const MT_W=['还没问','支持','不反对','反对 / 要求到校'];
+let editMt=null;
+function chosenMt(){return S.mentors.filter(m=>m.chosen)[0]||null}
+function renderMt(){
+  const box=document.getElementById('mt-list');
+  if(!S.mentors.length){box.innerHTML='<div class="empty">还没加候选导师。见面前先列出来,见完立刻补上判断。别相信记忆。</div>';return}
+  const ch=chosenMt();
+  // 已定的排最前,其余按意向分
+  const list=S.mentors.slice().sort((a,b)=>((b.chosen?1:0)-(a.chosen?1:0))||((b.r||0)-(a.r||0)));
+  let h='';
+  if(ch){
+    h+=`<div class="mt-now"><span class="mt-now-k">已定导师</span>
+      <b>${esc(ch.n)}</b>${ch.f?`<span style="color:var(--ink3);font-weight:400;font-size:13px">${esc(ch.f)}</span>`:''}
+      ${(ch.w||'').indexOf('反对')>=0?'<span class="tag" style="background:#F7E4E0;color:#B45B4B">对实习有保留 · 再确认一次</span>':''}
+      <button class="btn ghost sm" style="margin-left:auto" onclick="unsetMt('${ch.id}')">改主意</button></div>`;
+  }
+  h+=`<div class="g2">`+list.map(m=>{
+    if(m.id===editMt){
+      return `<div class="mt goo" style="border-color:var(--clay);background:var(--clay-bg)">
+        <div class="mt-t" style="margin-bottom:12px">编辑 · ${esc(m.n)}</div>
+        <div class="row2">
+          <div class="field"><label class="lab">姓名</label><input class="inp" id="em-n" value="${esc(m.n)}"></div>
+          <div class="field"><label class="lab">研究方向</label><input class="inp" id="em-f" value="${esc(m.f||'')}"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label class="lab">带学生风格</label><select class="inp" id="em-s">${MT_S.map(o=>`<option${o===(m.s||'未知')?' selected':''}>${o}</option>`).join('')}</select></div>
+          <div class="field"><label class="lab">对实习的态度</label><select class="inp" id="em-w">${MT_W.map(o=>`<option${o===(m.w||'还没问')?' selected':''}>${o}</option>`).join('')}</select></div>
+        </div>
+        <div class="field"><label class="lab">意向分 1–5</label><input class="inp" type="number" id="em-r" value="${m.r||3}" min="1" max="5"></div>
+        <div class="field"><label class="lab">备注 · 往年成绩、话语权、别人对他的评价</label><textarea class="inp" id="em-x">${esc(m.x||'')}</textarea></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn clay sm" onclick="saveMt('${m.id}')">保存</button>
+          <button class="btn ghost sm" onclick="editMt=null;renderMt()">取消</button>
+        </div></div>`;
+    }
+    return `<div class="mt goo${m.chosen?' chosen':''}">
+      <div class="mt-t">${esc(m.n)}${m.f?` <span style="font-size:12px;color:var(--ink3);font-weight:400">${esc(m.f)}</span>`:''}${m.chosen?' <span class="tag sage">已定</span>':''}</div>
+      <div class="mt-r"><span class="mt-k">带学生</span><span>${esc(m.s||'未知')}</span></div>
+      <div class="mt-r"><span class="mt-k">对实习</span><span style="${(m.w||'').indexOf('反对')>=0?'color:#B45B4B;font-weight:600':''}">${esc(m.w||'还没问')}</span></div>
+      <div class="mt-r"><span class="mt-k">意向</span><span class="stars">${[1,2,3,4,5].map(i=>`<i class="${i<=(m.r||0)?'on':''}"></i>`).join('')}</span></div>
+      ${m.x?`<div style="font-size:13px;color:var(--ink2);line-height:1.7;margin-top:10px;white-space:pre-wrap">${esc(m.x)}</div>`:''}
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        ${m.chosen
+          ?`<button class="btn ghost sm" onclick="unsetMt('${m.id}')">取消定下</button>`
+          :`<button class="btn clay sm" onclick="setMt('${m.id}')">定下 TA</button>`}
+        <button class="btn ghost sm" onclick="editMt='${m.id}';renderMt()">编辑</button>
+        <button class="btn danger sm" style="margin-left:auto" onclick="delMt('${m.id}')">删除</button>
+      </div></div>`;
+  }).join('')+`</div>`;
+  box.innerHTML=h;
+}
+function saveMt(id){
+  const m=S.mentors.find(x=>x.id===id);if(!m){editMt=null;return}
+  const g=i=>document.getElementById(i);
+  const n=g('em-n');if(n&&n.value.trim())m.n=n.value.trim();
+  if(g('em-f'))m.f=g('em-f').value.trim();
+  if(g('em-s'))m.s=g('em-s').value;
+  if(g('em-w'))m.w=g('em-w').value;
+  if(g('em-r'))m.r=Math.min(5,Math.max(1,+g('em-r').value||3));
+  if(g('em-x'))m.x=g('em-x').value.trim();
+  editMt=null;save();renderMt();renderHome();toast('导师信息已更新');
+}
+function setMt(id){
+  const m=S.mentors.find(x=>x.id===id);if(!m)return;
+  const old=S.mentors.filter(x=>x.chosen&&x.id!==id)[0];
+  const doIt=()=>{
+    S.mentors.forEach(x=>{x.chosen=(x.id===id)});
+    save();renderMt();renderHome();toast('导师定了 · '+m.n);
+  };
+  if(old)uiConfirm('现在定的是「'+old.n+'」。\n\n要改成「'+m.n+'」吗?',doIt,{title:'换导师?',yesText:'改成 TA',noText:'不改'});
+  else doIt();
+}
+function unsetMt(id){
+  const m=S.mentors.find(x=>x.id===id);if(!m)return;
+  uiConfirm('取消定下「'+m.n+'」。\n\n候选名单还在,只是回到「待定」状态。',()=>{
+    m.chosen=false;save();renderMt();renderHome();toast('已回到待定');
+  },{title:'取消定下?',yesText:'取消定下',noText:'算了'});
+}
+function addMt(){
+  const n=document.getElementById('mt-n').value.trim();if(!n){toast('先写姓名');return}
+  S.mentors.push({id:uid(),n,f:document.getElementById('mt-f').value.trim(),
+    s:document.getElementById('mt-s').value,w:document.getElementById('mt-w').value,
+    r:Math.min(5,Math.max(1,+document.getElementById('mt-r').value||3)),
+    x:document.getElementById('mt-x').value.trim()});
+  save();['mt-n','mt-f','mt-x'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('mt-r').value=3;renderMt();toast('已加入候选');
+}
+function delMt(id){S.mentors=S.mentors.filter(m=>m.id!==id);save();renderMt()}
+
+function renderMl(){
+  document.getElementById('ml-list').innerHTML=S.mlog.length?S.mlog.slice().sort((a,b)=>b.d.localeCompare(a.d)).map(l=>
+    `<div class="log"><div class="log-d">${l.d}</div>
+      <div class="log-c"><b>${esc(l.m||'')}</b> <span style="font-size:12px;color:var(--ink3)">${esc(l.t||'')}</span>
+        <div style="margin-top:2px">${esc(l.c||'')}</div>
+        ${l.f?`<span class="fb">反馈:${esc(l.f)}</span>`:''}${l.x?`<span class="nx">下一步:${esc(l.x)}</span>`:''}</div>
+      <button class="btn danger sm" onclick="delMl('${l.id}')">删</button></div>`).join('')
+    :'<div class="empty">还没有沟通记录。定个死规矩:每两周一次。</div>';
+}
+function addMl(){
+  const c=document.getElementById('ml-c').value.trim();
+  if(!c){toast('至少写一句你说了什么');return}
+  S.mlog.push({id:uid(),d:document.getElementById('ml-d').value||d2s(TODAY),
+    m:document.getElementById('ml-m').value.trim(),t:document.getElementById('ml-t').value,
+    c,f:document.getElementById('ml-f').value.trim(),x:document.getElementById('ml-x').value.trim()});
+  save();['ml-m','ml-c','ml-f','ml-x'].forEach(i=>document.getElementById(i).value='');
+  renderMl();toast('记下了');
+}
+function delMl(id){S.mlog=S.mlog.filter(l=>l.id!==id);save();renderMl()}
+
+/* rate station */
+let RI=0;
+function score(i){
+  if(!i.score)i.score={};
+  let raw=0,max=0;
+  DIM.forEach(d=>{const v=i.score[d.k]||0;raw+=v*d.w;max+=5*d.w});
+  return max?Math.round(raw/max*100):0;
+}
+function rateDone(i){return DIM.every(d=>typeof (i.score||{})[d.k]==='number')}
+function renderRate(){
+  const box=document.getElementById('rate-box');
+  const unrated=S.ideas.filter(i=>!rateDone(i));
+  const rated=S.ideas.filter(rateDone).map(i=>({i,s:score(i)})).sort((a,b)=>b.s-a.s);
+  if(RI>=unrated.length)RI=0;
+  const cur=unrated[RI];
+  let h=`<div class="rate-top"><div class="rt">已评 <b>${rated.length}</b> 条</div><div class="rt">待评 <b>${unrated.length}</b> 条</div>
+    <div style="margin-left:auto" class="rt">${rated.length+S.ideas.filter(i=>!rateDone(i)).length?'共 '+S.ideas.length+' 条观察':''}</div></div>`;
+  if(!cur){
+    h+=`<div class="rate-q" style="text-align:center;padding:30px 22px">
+      ${!S.ideas.length
+        ? `<div class="q" style="font-size:16px;margin-bottom:8px">还没有观察记录</div>
+           <div style="font-size:13px;color:var(--ink3);line-height:1.8;margin-bottom:18px">评分台的东西全部来自「配料表 → 观察库」。<br>那边每记一条,这里就多一条可以评。</div>
+           <button class="btn clay" onclick="go('inspire')">去记一条观察</button>`
+        : `<div class="q" style="font-size:16px;margin-bottom:8px">全部评完了</div>
+           <div style="font-size:13px;color:var(--ink3);line-height:1.8;margin-bottom:18px">${rated.length} 条都评过,结果在下面的排序表。<br>还想加的话,去观察库再记几条。</div>
+           <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+             <button class="btn ghost" onclick="go('inspire')">去补观察</button>
+             <button class="btn clay" onclick="resetRate()">重评一遍</button></div>`}
+      </div>`;
+  }else{
+    h+=`<div class="rate-q"><div class="q">${esc(cur.act)}</div>
+      <div class="m">${cur.scn?`<span>场景 ${esc(cur.scn)}</span>`:''}${cur.obj?`<span>借用什么 ${esc(cur.obj)}</span>`:''}<span>${cur.date}</span></div>
+      ${cur.why?`<div style="font-size:13px;color:var(--ink2);margin-top:10px;line-height:1.7">${esc(cur.why)}</div>`:''}</div>
+      <div class="rate-dims">`;
+    DIM.forEach(d=>{
+      const v=(cur.score||{})[d.k];
+      h+=`<div class="dim"><div class="dim-h"><span class="dim-n">${d.n}</span>${d.hot?'<span class="dim-w">权重最高</span>':''}</div>
+        <div class="dim-d">${esc(d.d)}</div>
+        <div class="dim-s"><input type="range" min="0" max="5" step="1" value="${typeof v==='number'?v:0}"
+          oninput="setSc('${cur.id}','${d.k}',+this.value)"><span class="dim-v" id="dv-${d.k}">${typeof v==='number'?v:0}</span></div></div>`;
+    });
+    h+=`</div><div class="rate-bot">
+      <button class="btn clay" onclick="nextRate()">下一条 →</button>
+      <button class="btn ghost" onclick="skipRate()">跳过</button>
+      <span style="margin-left:auto;font-size:12.5px;color:var(--ink3)">评完自动进入下面的排序</span></div>`;
+  }
+  box.innerHTML=h;
+  renderRank(rated);
+}
+function setSc(id,k,v){
+  const i=S.ideas.find(x=>x.id===id);if(!i)return;
+  if(!i.score)i.score={};
+  i.score[k]=v;
+  document.getElementById('dv-'+k).textContent=v;
+  clearTimeout(window._rs);window._rs=setTimeout(()=>{save();renderRate();renderHome()},260);
+}
+function nextRate(){RI++;renderRate()}
+function skipRate(){RI++;renderRate()}
+function resetRate(){
+  if(!S.ideas.filter(rateDone).length){toast('还没评过,不用清');return}
+  uiConfirm('把所有观察的评分清空,重新评一遍。\n\n已经升到候选板的选题不受影响。',()=>{
+    S.ideas.forEach(i=>{i.score={}});
+    RI=0;save();renderRate();renderHome();toast('评分已清空');
+  },{title:'重评一遍?',yesText:'清空重评',noText:'算了',danger:true});
+}
+function renderRank(rated){
+  const box=document.getElementById('rank-list');
+  if(!rated.length){
+    box.innerHTML=`<div class="empty" style="text-align:center;padding:26px 18px">
+      <div style="font-size:14px;margin-bottom:6px">排序表是空的</div>
+      <div style="font-size:12.5px;line-height:1.75">${S.ideas.length
+        ? '上面评分台还有待评的,评完会自动掉到这儿。'
+        : '得先在观察库记几条,才有东西可以评。'}</div></div>`;
+    return;
+  }
+  box.innerHTML=rated.map((r,i)=>
+    `<div class="rank"><div class="rank-i">${i+1}</div>
+      <div class="rank-t">${esc(r.i.act)}<div class="rank-b" style="margin-top:7px"><i style="width:${r.s}%"></i></div></div>
+      <div class="rank-s">${r.s}</div>
+      <div class="rank-a"><button class="btn ghost sm" onclick="toCand('${r.i.id}')">升候选</button></div></div>`).join('');
+}
+function toCand(id){
+  const i=S.ideas.find(x=>x.id===id);if(!i)return;
+  S.cands.push({id:uid(),n:i.act.slice(0,20),o:'',w:i.why||'',p:'',c:'',m:'',k:'',status:'alive',from:id});
+  save();stab('cand');renderCands();toast('已升为候选,去补完信息');
+}
+
+/* cands */
+function renderCands(){
+  const ST={alive:['进行中','blue'],chosen:['已选定','sage'],dead:['已放弃','']};
+  document.getElementById('cand-list').innerHTML=S.cands.length?S.cands.map(c=>
+    `<div class="cand goo ${c.status||'alive'}" id="cd-${c.id}">
+      <div class="cand-h" onclick="this.parentNode.classList.toggle('open')">
+        <div><div class="cand-n">${esc(c.n)}</div><div class="cand-o">${esc(c.o||'还没写一句话定位')}</div></div>
+        <div style="display:flex;gap:8px;align-items:center"><span class="tag ${ST[c.status||'alive'][1]}">${ST[c.status||'alive'][0]}</span><span class="arw">▼</span></div>
+      </div>
+      <div class="cand-b">
+        ${[['为什么想做',c.w],['优势',c.p],['风险',c.c],['导师怎么说',c.m],['为什么放弃它',c.k]].map(([k,v])=>
+          v?`<div class="cand-f"><div class="cand-k">${k}</div><div class="cand-v">${esc(v)}</div></div>`:'').join('')}
+        <div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:16px">
+          <button class="btn ${c.status==='chosen'?'':'ghost'} sm" onclick="setCs('${c.id}','chosen')">选定这个</button>
+          <button class="btn ${c.status==='alive'?'':'ghost'} sm" onclick="setCs('${c.id}','alive')">进行中</button>
+          <button class="btn ${c.status==='dead'?'':'ghost'} sm" onclick="setCs('${c.id}','dead')">放弃</button>
+          <button class="btn danger sm" style="margin-left:auto" onclick="delCand('${c.id}')">删除</button>
+        </div>
+        ${!c.k?`<div class="hint">「为什么放弃它」是空的。答辩时评委一定会问你考虑过什么、为什么没选。</div>`:''}
+      </div></div>`).join('')
+    :'<div class="empty">还没有候选。去筛选器把高分观察升格过来,或者直接加一个。</div>';
+}
+function addCand(){
+  const n=document.getElementById('cd-n').value.trim();if(!n){toast('先起个名字');return}
+  S.cands.push({id:uid(),n,o:document.getElementById('cd-o').value.trim(),
+    w:document.getElementById('cd-w').value.trim(),p:document.getElementById('cd-p').value.trim(),
+    c:document.getElementById('cd-c').value.trim(),m:document.getElementById('cd-m').value.trim(),
+    k:'',status:'alive'});
+  save();['cd-n','cd-o','cd-w','cd-p','cd-c','cd-m'].forEach(i=>document.getElementById(i).value='');
+  renderCands();toast('已加进候选板');
+}
+function setCs(id,v){
+  const c=S.cands.filter(x=>x.id===id)[0];if(!c)return;
+  if(v==='chosen')S.cands.forEach(x=>{if(x.id!==id&&x.status==='chosen')x.status='alive'});
+  c.status=v;save();renderCands();renderNowTopic();
+  if(v==='chosen')toast('已选定 · 现在钉在首页了');
+}
+function delCand(id){S.cands=S.cands.filter(c=>c.id!==id);save();renderCands()}
+
+/* dup */
+function renderDup(){
+  document.getElementById('dup-btns').innerHTML=CHK.map(c=>
+    `<button class="chk-b" onclick="openChk('${c.n}')">${c.n}<small>${c.s}</small></button>`).join('');
+}
+function dupSet(q){document.getElementById('dup-q').value=q}
+function openChk(n){
+  const q=document.getElementById('dup-q').value.trim();
+  const c=CHK.find(x=>x.n===n);if(!c)return;
+  if(!q){toast('先输入关键词');return}
+  window.open(c.u(encodeURIComponent(q)),'_blank','noopener');
+}
+
+/* ---------- INSPIRE ---------- */
+function tab(t){
+  document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  ['obs','src','st'].forEach(k=>{document.getElementById('t-'+k).style.display=k===t?'':'none'});
+  if(t==='st')renderSteal();
+}
+let F='all';
+function filter(f){F=f;document.querySelectorAll('[data-f]').forEach(c=>c.classList.toggle('on',c.dataset.f===f));renderIdeas()}
+function streak(){
+  const days=[...new Set(S.ideas.map(i=>i.date))].sort().reverse();
+  if(!days.length)return 0;
+  let n=0,cur=new Date(TODAY);
+  if(d2s(cur)!==days[0])cur.setDate(cur.getDate()-1);
+  for(const d of days){if(d===d2s(cur)){n++;cur.setDate(cur.getDate()-1)}else if(d<d2s(cur))break}
+  return n;
+}
+function renderIdeas(){
+  const st=streak();
+  document.getElementById('i-cnt').textContent=S.ideas.length;
+  document.getElementById('i-strk').textContent=st;
+  document.getElementById('i-strk-d').innerHTML=Array.from({length:14},(_,i)=>`<i class="${i<st?'on':''}"></i>`).join('');
+  document.getElementById('i-prog').style.width=Math.min(100,S.ideas.length)+'%';
+  let l=S.ideas.slice();
+  if(F==='star')l=l.filter(i=>i.star);else if(F!=='all')l=l.filter(i=>i.res===F);
+  const R={strong:['强共鸣','clay'],mid:['中','gold'],weak:['弱','']};
+  document.getElementById('i-list').innerHTML=l.length?`<div class="g2">`+l.map(i=>{
+    const sc=rateDone(i)?score(i):null;
+    return `<div class="item goo"><div class="item-h"><div class="item-t">${esc(i.act)}</div><div class="item-m">${i.date}${sc!==null?' · '+sc+' 分':''}</div></div>
+     <div class="item-b">${i.scn?`<b style="color:var(--ink)">场景</b> ${esc(i.scn)}<br>`:''}${i.obj?`<b style="color:var(--ink)">借用什么</b> ${esc(i.obj)}<br>`:''}${i.why?`<b style="color:var(--ink)">为什么</b> ${esc(i.why)}`:''}</div>
+     ${i.img?`<img class="photo" src="${i.img}">`:''}
+     <div class="item-f"><span class="tag ${R[i.res]?R[i.res][1]:''}">${R[i.res]?R[i.res][0]:''}</span>
+       <button class="btn ghost sm" onclick="star('${i.id}')">${i.star?'取消标记':'☆ 标记'}</button>
+       ${sc!==null?'':`<button class="btn ghost sm" onclick="go('select');stab('rate')">去评分</button>`}
+       <button class="item-del" onclick="delIdea('${i.id}')">删除</button></div></div>`;}).join('')+`</div>`
+    :'<div class="empty">还没有记录。上面写一条,或者回首页用「加一勺」。</div>';
+}
+function addIdea(){
+  const a=document.getElementById('i-act').value.trim();
+  if(!a){toast('动作那一栏必须填');return}
+  const f=document.getElementById('i-img').files[0];
+  const push=img=>{
+    S.ideas.unshift({id:uid(),date:d2s(TODAY),act:a,
+      scn:document.getElementById('i-scn').value.trim(),
+      obj:document.getElementById('i-obj').value.trim(),
+      why:document.getElementById('i-why').value.trim(),
+      res:document.getElementById('i-res').value,star:false,img:img||'',score:{}});
+    save();
+    ['i-act','i-scn','i-obj','i-why'].forEach(i=>document.getElementById(i).value='');
+    document.getElementById('i-img').value='';
+    renderIdeas();renderHome();toast('记下了 · 第 '+S.ideas.length+' 条');
+  };
+  if(f){const r=new FileReader();r.onload=e=>compress(e.target.result,push);r.readAsDataURL(f)}else push('');
+}
+function compress(src,cb){
+  const im=new Image();im.onload=()=>{
+    const m=500,s=Math.min(1,m/Math.max(im.width,im.height));
+    const c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;
+    c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+    try{cb(c.toDataURL('image/jpeg',.72))}catch(e){cb('')}
+  };im.onerror=()=>cb('');im.src=src;
+}
+function star(id){const i=S.ideas.find(x=>x.id===id);if(i){i.star=!i.star;save();renderIdeas()}}
+function delIdea(id){S.ideas=S.ideas.filter(i=>i.id!==id);save();renderIdeas();renderHome();renderRate()}
+
+function renderSrc(){
+  document.getElementById('src-box').innerHTML=SRCS.map(g=>
+    `<div style="margin-bottom:34px"><h2 class="sec">${g.c}</h2><div class="sec-d">${g.list.length} 个</div><div class="src">${
+      g.list.map(s=>`<a class="src-r" href="${s.u}" target="_blank" rel="noopener">
+        <div class="src-n">${s.n}<span>${s.u.replace('https://','')}</span></div>
+        <div class="src-d">${esc(s.d)}</div><div class="src-go">打开 →</div></a>`).join('')}</div></div>`).join('');
+}
+
+/* steal */
+function stId(g,i){return 'st'+g+'_'+i}
+function renderSteal(){
+  let tot=0,done=0;
+  STEAL.forEach((g,gi)=>g.l.forEach((it,ii)=>{tot++;if(S.steal[stId(gi,ii)])done++}));
+  document.getElementById('st-stat').innerHTML=
+    `<div style="display:flex;gap:28px;align-items:center;flex-wrap:wrap">
+      <div><div class="stat-n" style="font-size:30px">${done}<span style="font-size:18px;color:var(--ink3)">/${tot}</span></div><div class="stat-l">已经拿到</div></div>
+      <div style="flex:1;min-width:180px"><div class="prog"><i style="width:${tot?done/tot*100:0}%;background:var(--clay)"></i></div></div>
+      <div style="font-size:13px;color:${done===tot?'var(--sage)':'var(--ink3)'}">${done===tot?'全部拿到了,走也不亏。':(tot-done)+' 项还没拿'}</div>
+    </div>`;
+  document.getElementById('st-list').innerHTML=STEAL.map((g,gi)=>
+    `<div class="st-grp">${esc(g.g)}</div>`+g.l.map((it,ii)=>{
+      const id=stId(gi,ii),on=!!S.steal[id];
+      return `<div class="steal${on?' done':''}" onclick="togSt('${id}')"><i class="bx"></i>
+        <div><div class="st-t"><b>${esc(it.t)}</b></div><div class="st-d">${esc(it.d)}</div></div></div>`;
+    }).join('')).join('');
+}
+function togSt(id){S.steal[id]=!S.steal[id];save();renderSteal()}
+
+/* ---------- BOOKS ---------- */
+let BF='all';
+function bFilter(f){BF=f;document.querySelectorAll('[data-b]').forEach(c=>c.classList.toggle('on',c.dataset.b===f));renderBooks()}
+function renderBooks(){
+  const SL={want:'想读',doing:'在读',done:'已读'};
+  let l=S.books.slice();if(BF!=='all')l=l.filter(b=>b.s===BF);
+  document.getElementById('b-list').innerHTML=l.length?`<div class="g2">`+l.map(b=>
+    `<div class="item goo"><div class="item-h"><div class="item-t">${esc(b.t)}</div><div class="item-m">${esc(b.a)}</div></div>
+     <div style="display:flex;gap:6px;align-items:center;margin:8px 0 10px">
+       <span class="tag ${b.c==='必读'?'clay':''}">${esc(b.c)}</span>
+       <select class="inp" style="padding:4px 26px 4px 10px;font-size:12px;width:auto" onchange="setBs('${b.id}',this.value)">
+         ${Object.keys(SL).map(k=>`<option value="${k}"${b.s===k?' selected':''}>${SL[k]}</option>`).join('')}</select>
+       <span style="font-family:var(--serif);font-size:14px;margin-left:auto">${b.p}%</span></div>
+     <div class="prog"><i style="width:${b.p}%;background:var(--${b.s==='done'?'sage':'clay'})"></i></div>
+     <input class="inp" style="margin-top:10px;padding:5px 10px;font-size:12.5px" type="number" min="0" max="100" value="${b.p}" onchange="setBp('${b.id}',+this.value)">
+     ${b.n?`<div class="item-b" style="margin-top:10px">${esc(b.n)}</div>`:''}
+     <div class="item-f"><button class="item-del" onclick="delBook('${b.id}')" style="opacity:1">删除</button></div></div>`).join('')+`</div>`
+    :'<div class="empty">这个状态下没有书</div>';
+  const must=S.books.filter(b=>b.c==='必读');
+  document.getElementById('b-stats').innerHTML=
+    `<div style="display:flex;gap:26px;margin-bottom:20px">
+      <div><div class="stat-n" style="font-size:30px">${S.books.filter(b=>b.s==='done').length}</div><div class="stat-l">已读完</div></div>
+      <div><div class="stat-n" style="font-size:30px">${S.books.filter(b=>b.s==='doing').length}</div><div class="stat-l">在读</div></div>
+      <div><div class="stat-n" style="font-size:30px">${must.filter(b=>b.s==='done').length}/${must.length}</div><div class="stat-l">必读完成</div></div>
+    </div>`+must.map(b=>
+      `<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px">
+        <b>${esc(b.t)}</b><span style="color:var(--ink3)">${b.p}%</span></div>
+        <div class="prog"><i style="width:${b.p}%;background:var(--clay)"></i></div></div>`).join('');
+}
+function addBook(){
+  const t=document.getElementById('b-t').value.trim();
+  if(!t){toast('至少要写书名');return}
+  S.books.push({id:uid(),t,a:document.getElementById('b-a').value.trim(),
+    c:document.getElementById('b-c').value,s:document.getElementById('b-s').value,
+    p:Math.min(100,Math.max(0,+document.getElementById('b-p').value||0)),
+    n:document.getElementById('b-n').value.trim()});
+  save();
+  ['b-t','b-a','b-n'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('b-p').value=0;
+  renderBooks();renderHome();toast('已加入书单');
+}
+function setBs(id,v){const b=S.books.find(x=>x.id===id);if(b){b.s=v;if(v==='done')b.p=100;save();renderBooks();renderHome()}}
+function setBp(id,v){const b=S.books.find(x=>x.id===id);if(b){b.p=Math.min(100,Math.max(0,v));if(b.p===100)b.s='done';save();renderBooks();renderHome()}}
+function delBook(id){S.books=S.books.filter(b=>b.id!==id);save();renderBooks();renderHome()}
+
+/* ---------- AGENDA ---------- */
+let WK0=new Date(TODAY);WK0.setDate(WK0.getDate()-((WK0.getDay()+6)%7));
+const PXH=58,H0=7,H1=24;
+function tv(s){const p=String(s).split(':');return (+p[0])+(+p[1]||0)/60}
+function wkMove(n){if(n===0){WK0=new Date(TODAY);WK0.setDate(WK0.getDate()-((WK0.getDay()+6)%7))}
+  else WK0.setDate(WK0.getDate()+n*7);renderWk()}
+function renderWk(){
+  const days=Array.from({length:7},(_,i)=>{const d=new Date(WK0);d.setDate(d.getDate()+i);return d});
+  document.getElementById('wk-title').textContent=days[0].getFullYear()+'年'+(days[0].getMonth()+1)+'月'+days[0].getDate()+'日 — '+(days[6].getMonth()+1)+'月'+days[6].getDate()+'日';
+  const hrs=[];for(let h=H0;h<H1;h++)hrs.push(h);
+  let html=`<div class="wk-h"></div>`+days.map(d=>{
+    const isT=d2s(d)===d2s(TODAY);
+    return `<div class="wk-h${isT?' today':''}">周${'一二三四五六日'[(d.getDay()+6)%7]}<b>${d.getDate()}</b></div>`;
+  }).join('');
+  html+=hrs.map(h=>`<div class="wk-time"><span>${h}</span></div>`+days.map(d=>
+    `<div class="wk-col" style="height:${PXH}px" onclick="prefill('${d2s(d)}',${h})"></div>`).join('')).join('');
+  document.getElementById('wk').innerHTML=html;
+  const inWk=S.ev.filter(e=>days.some(d=>d2s(d)===e.date));
+  const clashed=new Set();
+  inWk.forEach(a=>inWk.forEach(b=>{
+    if(a.id>=b.id||a.date!==b.date)return;
+    const as=tv(a.s),ae=tv(a.e),bs=tv(b.s),be=tv(b.e);
+    if(as<be&&ae>bs){clashed.add(a.id);clashed.add(b.id)}
+  }));
+  const cols=document.querySelectorAll('.wk-col');
+  inWk.forEach(e=>{
+    const idx=days.findIndex(d=>d2s(d)===e.date);
+    const sh=tv(e.s),eh=tv(e.e);
+    if(eh<=sh)return;
+    const row=Math.floor(sh)-H0;
+    if(row<0||row>=hrs.length)return;
+    const cell=cols[row*7+idx];if(!cell)return;
+    const top=(sh-Math.floor(sh))*PXH;
+    const d=document.createElement('div');
+    d.className='ev ev-'+e.ty+(clashed.has(e.id)?' clash':'');
+    d.style.top=top+'px';d.style.height=Math.max(22,(eh-sh)*PXH)+'px';
+    d.style.zIndex=clashed.has(e.id)?3:2;
+    d.innerHTML=`<b>${esc(e.title)}</b>${e.s}–${e.e}`;
+    d.title=e.title+' · '+e.date+' '+e.s+'–'+e.e+' · 点击删除';
+    d.onclick=ev=>{ev.stopPropagation();delEv(e.id)};
+    cell.appendChild(d);
+  });
+  const w=document.getElementById('a-warn');
+  const list=S.ev.filter(e=>clashed.has(e.id));
+  if(!list.length){w.classList.remove('on')}
+  else{w.classList.add('on');
+    w.innerHTML='<b>检测到 '+list.length+' 个日程时间重叠</b><br>'+list.map(e=>esc(e.title)+' · '+e.date+' '+e.s+'–'+e.e).join('<br>')}
+  const wkStart=d2s(days[0]),wkEnd=d2s(days[6]);
+  const wev=S.ev.filter(e=>e.date>=wkStart&&e.date<=wkEnd);
+  const byT={work:0,grad:0,course:0,life:0};
+  wev.forEach(e=>{byT[e.ty]+=Math.max(0,tv(e.e)-tv(e.s))});
+  const tot=byT.work+byT.grad+byT.course+byT.life;
+  const MX={'work':'实习','grad':'毕设','course':'课程','life':'个人'};
+  const CL={'work':'var(--blue)','grad':'var(--clay)','course':'var(--sage)','life':'var(--plum)'};
+  document.getElementById('a-stat').innerHTML=
+    `<div style="display:flex;gap:26px;margin-bottom:18px">
+      <div><div class="stat-n" style="font-size:28px">${tot.toFixed(1)}h</div><div class="stat-l">本周总安排</div></div>
+      <div><div class="stat-n" style="font-size:28px;color:var(--clay)">${byT.grad.toFixed(1)}h</div><div class="stat-l">其中毕设</div></div>
+      <div><div class="stat-n" style="font-size:28px">${wev.length}</div><div class="stat-l">日程数</div></div>
+    </div>`+Object.keys(MX).map(k=>
+      `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px">
+        <span>${MX[k]}</span><span style="color:var(--ink3)">${byT[k].toFixed(1)}h</span></div>
+        <div class="prog"><i style="width:${tot?byT[k]/tot*100:0}%;background:${CL[k]}"></i></div></div>`).join('')
+    +`<div style="margin-top:16px;font-size:13px;color:${byT.grad>=12?'var(--sage)':'#B45B4B'}">
+       ${byT.grad>=12?'毕设时间达标,这周能推得动。':byT.grad>=8?'毕设时间偏紧,注意别掉队。':'毕设时间严重不足,这周基本推不动。'}</div>`;
+}
+function prefill(d,h){document.getElementById('a-d').value=d;
+  document.getElementById('a-s').value=String(h).padStart(2,'0')+':00';
+  document.getElementById('a-e').value=String(Math.min(h+2,23)).padStart(2,'0')+':00';}
+function addEv(){
+  const t=document.getElementById('a-t').value.trim(),d=document.getElementById('a-d').value,
+        s=document.getElementById('a-s').value,e=document.getElementById('a-e').value,
+        ty=document.getElementById('a-ty').value;
+  if(!t||!d){toast('名称和日期都要填');return}
+  if(e<=s){toast('结束时间要晚于开始时间');return}
+  S.ev.push({id:uid(),title:t,date:d,s,e,ty});save();
+  document.getElementById('a-t').value='';
+  renderWk();toast('已加入时间表');
+}
+function delEv(id){S.ev=S.ev.filter(e=>e.id!==id);save();renderWk();toast('已删除')}
+
+/* ---------- ME ---------- */
+function mtab(t){
+  document.querySelectorAll('[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===t));
+  ['skill','dec','book','data'].forEach(k=>{document.getElementById('m-'+k).style.display=k===t?'':'none'});
+  if(t==='data'){renderData();if(typeof onDbTypeChange==='function')onDbTypeChange();}
+  if(t==='dec')renderDecs();
+}
+function allSkills(){return SKILLS.concat(S.custom.map(c=>({id:c.id,n:c.n})))}
+function renderHob(){
+  document.getElementById('hob').innerHTML=HOBBY.map(h=>
+    `<button class="chip${S.profile.hobbies.indexOf(h.n)>=0?' on':''}" onclick="togHob('${h.n}')">${h.n}</button>`).join('');
+}
+function togHob(n){
+  const a=S.profile.hobbies,i=a.indexOf(n);
+  if(i<0)a.push(n);else a.splice(i,1);
+  save();renderHob();renderDirs();
+}
+function renderSkills(){
+  document.getElementById('skills').innerHTML=allSkills().map(s=>{
+    const v=S.profile.skills[s.id]||0;
+    return `<div class="sl"><div class="sl-n">${esc(s.n)}</div>
+      <input type="range" min="0" max="5" step="1" value="${v}" oninput="setSk('${s.id}',+this.value)">
+      <div class="sl-v" id="sv-${s.id}">${v}</div></div>`;
+  }).join('');
+}
+function setSk(id,v){
+  S.profile.skills[id]=v;
+  document.getElementById('sv-'+id).textContent=v;
+  clearTimeout(window._st);window._st=setTimeout(()=>{save();renderDirs();renderCheese()},180);
+}
+function addSkill(){
+  const n=document.getElementById('sk-new').value.trim();if(!n){toast('写个名字');return}
+  S.custom.push({id:'c'+uid(),n});save();
+  document.getElementById('sk-new').value='';renderSkills();renderCheese();toast('已添加');
+}
+function renderCheese(){
+  const sk=S.profile.skills,crust=[],flow=[],none=[];
+  allSkills().forEach(s=>{const v=sk[s.id]||0;
+    if(v>=4)crust.push(s.n);else if(v>0)flow.push(s.n);else none.push(s.n)});
+  const T=(a,txt)=>a.length?a.map(n=>`<span class="tag">${esc(n)}</span>`).join('')
+    :`<span style="font-size:12.5px;opacity:.72">${txt}</span>`;
+  let note;
+  if(!crust.length&&!flow.length)note='还没标注任何技能。上面拖一下滑块,这块芝士就开始成形。';
+  else if(!crust.length)note='现在整块都还在流动。不是坏事,但要清楚:毕设只有九个月,<b>至少要有一项能力能在答辩前凝固</b>——挑一个流心往上推。';
+  else if(!flow.length)note='整块都凝固了。稳定是好事,但也意味着这次毕设你没有在练新东西。考虑往里加一项——大四补一项技能,时间正好够。';
+  else note=`半熟不是不熟。外壳已经成型(<b>${crust.length}</b> 项)说明你有底子,内里还在流动(<b>${flow.length}</b> 项)说明还有得长。这正是它最好吃的时候——完全凝固了就没意思了。`;
+  document.getElementById('cheese').innerHTML=
+    `<div class="cheese">
+      <div class="crust"><div class="ch-t">外壳 · 已经凝固的部分</div>
+        <div class="ch-d">熟练度 4 以上 · 拿得出手,现在就能靠它吃饭</div>
+        <div class="ch-tags">${T(crust,'这一层还是空的')}</div></div>
+      <div class="flowz"><div class="ch-t">流心 · 还在流动的部分</div>
+        <div class="ch-d">熟练度 1–3 · 还在碰撞、没定型,也最有可塑性</div>
+        <div class="ch-tags">${T(flow,'没有正在发展的技能')}</div></div>
+      <div class="cheese-note">${note}${none.length?`<span style="display:block;margin-top:8px;font-size:12px;color:var(--ink3)">另有 ${none.length} 项标为 0(未开始),没有计入。</span>`:''}</div>
+    </div>`;
+}
+function calc(d){
+  const sk=S.profile.skills;
+  let raw=0,max=0;
+  for(const k in d.w){const w=d.w[k];max+=w*5;raw+=(sk[k]||0)*w}
+  let score=max?raw/max*100:0;
+  for(const k in d.w){if(d.w[k]===3&&!(sk[k]>0))score*=0.76}
+  let bonus=0;
+  S.profile.hobbies.forEach(h=>{const o=HOBBY.find(x=>x.n===h);if(o&&o.b[d.id])bonus+=o.b[d.id]});
+  return Math.max(0,Math.min(100,Math.round(score+Math.min(15,bonus))));
+}
+function renderDirs(){
+  const sk=S.profile.skills;
+  const res=DIRS.map(d=>({d,s:calc(d)})).sort((a,b)=>b.s-a.s);
+  const nm=S.profile.name?S.profile.name:'你';
+  const cnt=Object.values(sk).filter(v=>v>0).length;
+  document.getElementById('m-sum').innerHTML=cnt
+    ? `<b>${esc(nm)}</b>,根据你标出的 <b>${cnt}</b> 项技能和 <b>${S.profile.hobbies.length}</b> 个爱好,最匹配的是 <b>${res[0].d.n}</b>(${res[0].s}%)。下面按匹配度排,每格都写了你缺什么。`
+    : '拖动上面的滑块,这里会实时算出五个方向的匹配度。';
+  document.getElementById('dirs').innerHTML=res.map((r,i)=>{
+    const d=r.d,sc=r.s;
+    const adv=[],gap=[];
+    for(const k in d.w){
+      const w=d.w[k],v=sk[k]||0,nm2=(allSkills().find(s=>s.id===k)||{}).n||k;
+      if(w>=2&&v>=4)adv.push({n:nm2,w});
+      else if(w>=2&&v<=2)gap.push({n:nm2,w});
+    }
+    gap.sort((a,b)=>b.w-a.w);
+    const CL={'3':'clay','2':'gold'};
+    return `<div class="dir goo${i===0?' top':''}">
+      <div class="dir-h">
+        <div><div class="dir-r">方向 ${String(i+1).padStart(2,'0')}${i===0?' · 最匹配':''}</div>
+          <div class="dir-n">${d.n}</div><div class="dir-d">${esc(d.d)}</div></div>
+        <div class="dir-pct"><small>匹配度</small><b>${sc}%</b>
+          <div class="prog" style="margin-top:10px"><i style="width:${sc}%;background:${i===0?'var(--clay)':'var(--ink3)'}"></i></div></div>
+      </div>
+      <div class="dir-b">
+        <div class="dir-row"><div class="dir-k">你的优势</div><div>${adv.length?adv.map(a=>`<span class="tag sage">${esc(a.n)}</span>`).join(''):'<span style="color:var(--ink3);font-size:13px">这个方向的核心技能你还没有明显优势</span>'}</div></div>
+        <div class="dir-row"><div class="dir-k">你需要补</div><div>${gap.length?gap.map(g=>`<span class="tag ${CL[g.w]||''}">${esc(g.n)}${g.w===3?' · 核心':''}</span>`).join(''):'<span class="tag sage">没有明显缺口</span>'}</div></div>
+        <div class="dir-risk"><b>风险</b> · ${esc(d.r)}</div>
+      </div></div>`;
+  }).join('');
+}
+['m-name','m-major','m-now','m-idea'].forEach(id=>{
+  const el=document.getElementById(id),k=id.split('-')[1];
+  el.value=S.profile[k]||'';
+  el.addEventListener('input',()=>{S.profile[k]=el.value;save();if(id==='m-name')renderDirs()});
+});
+
+/* decisions */
+function renderDecs(){
+  document.getElementById('dec-list').innerHTML=S.decs.length?`<div class="g2">`+S.decs.slice().sort((a,b)=>b.d.localeCompare(a.d)).map(d=>
+    `<div class="dec goo"><div class="dec-t">${esc(d.t)}</div>
+      <div class="dec-r"><b>为什么</b>${esc(d.w||'')}</div>
+      <div style="margin-top:10px;display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <span class="tag clay">${esc(d.c)}</span>${d.k?`<span class="tag">${esc(d.k)}</span>`:''}
+        <span style="font-size:12px;color:var(--ink3);margin-left:auto">${d.d}</span></div>
+      <div style="margin-top:10px"><button class="btn danger sm" onclick="delDec('${d.id}')">删除</button></div></div>`).join('')+`</div>`
+    :'<div class="empty">还没有决策卡。每做一个设计决策记一张,论文的「设计实践」章就是现成的。</div>';
+}
+function addDec(){
+  const t=document.getElementById('dc-t').value.trim();if(!t){toast('先写做了什么决策');return}
+  S.decs.push({id:uid(),d:document.getElementById('dc-d').value||d2s(TODAY),
+    c:document.getElementById('dc-c').value,k:document.getElementById('dc-k').value.trim(),
+    t,w:document.getElementById('dc-w').value.trim()});
+  save();['dc-t','dc-w','dc-k'].forEach(i=>document.getElementById(i).value='');
+  renderDecs();toast('记了一张');
+}
+function delDec(id){S.decs=S.decs.filter(d=>d.id!==id);save();renderDecs()}
+
+/* data */
+function renderData(){
+  const n=[['观察记录',S.ideas.length],['候选选题',S.cands.length],['候选导师',S.mentors.length],
+    ['沟通日志',S.mlog.length],['决策卡',S.decs.length],['书单',S.books.length],
+    ['日程',S.ev.length],['关键节点',S.ms.length]];
+  document.getElementById('d-stat').innerHTML=n.map(([k,v])=>
+    `<div class="ms" style="grid-template-columns:1fr auto"><div class="ms-t">${k}</div>
+      <div class="ms-c">${v}</div></div>`).join('')
+    +`<div style="margin-top:14px;font-size:12px;color:var(--ink3)">数据版本 v${S.v||2} · 存储位置:本浏览器 localStorage</div>`;
+}
+// 是否在 Capacitor(APP)里跑 —— WebView 不支持 a.download,得走别的路子
+function isNative(){
+  try{ if(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform())return true }catch(e){}
+  try{ return /Capacitor|; wv\)/i.test(navigator.userAgent) }catch(e){return false}
+}
+function expData(){
+  const txt=JSON.stringify(S,null,1);
+  const fname='半熟芝士备份-'+d2s(TODAY)+'.json';
+  // 1) 手机:用系统分享面板,能直接存网盘 / 发微信 / 存文件
+  if(isNative()){
+    try{
+      const file=new File([txt],fname,{type:'application/json'});
+      if(navigator.canShare&&navigator.canShare({files:[file]})){
+        navigator.share({files:[file],title:fname,text:'半熟芝士备份'})
+          .then(()=>toast('已导出'))
+          .catch(e=>{
+            if(e&&e.name==='AbortError')return;   // 用户自己关掉分享面板,别打扰
+            uiCopyBox(fname,txt,'分享面板没起来。点「复制全部」,粘到微信收藏或备忘录里。');
+          });
+        return;
+      }
+    }catch(e){}
+    // 分享用不了(老 WebView),退到可复制文本框
+    uiCopyBox(fname,txt,'这台手机不能直接存文件。点「复制全部」,粘贴到微信收藏或备忘录里,导入时再粘回来。');
+    return;
+  }
+  // 2) 电脑浏览器:blob 下载
+  try{
+    const b=new Blob([txt],{type:'application/json'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(b);a.download=fname;
+    document.body.appendChild(a);a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},3000);
+    toast('已导出 · 记得放到网盘里');
+    return;
+  }catch(e){}
+  // 3) 都不行:可复制文本框
+  uiCopyBox(fname,txt,'这台设备没法直接存文件。点「复制全部」,粘贴到备忘录里。');
+}
+// 保底入口:不管系统分享能不能用,这个按钮一定能拿到 JSON 全文
+function copyData(){
+  const txt=JSON.stringify(S,null,1);
+  const fname='半熟芝士备份-'+d2s(TODAY)+'.json';
+  const kb=Math.round(txt.length/1024);
+  uiCopyBox(fname,txt,
+    '共 '+kb+' KB。点「复制全部」,粘到微信收藏、备忘录或发给自己。\n之后要恢复时,用下面的「粘贴导入」把这段粘回来。');
+}
+function impData(el){
+  const f=el.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{applyImport(e.target.result,'这个文件读不了,确认是本站导出的 JSON')};
+  r.readAsText(f);el.value='';
+}
+// 文件导入和粘贴导入共用这段解析逻辑
+function applyImport(text,errMsg){
+  errMsg=errMsg||'这段读不了,确认是本站导出的 JSON';
+  let d=null;
+  try{ d=JSON.parse(text) }catch(e){}
+  if(!d||typeof d!=='object'){toast(errMsg);return}
+  uiConfirm('导入会覆盖当前所有数据,现在的记录全被这份备份替换掉。建议先导出一份现在的。',()=>{
+    S=Object.assign(defState(),d);
+    S.profile=Object.assign({name:'',major:'',now:'',idea:'',skills:{},hobbies:[]},d.profile||{});
+    ['ideas','cands','mentors','mlog','decs','books','ms','ev','custom'].forEach(k=>{if(!Array.isArray(S[k]))S[k]=[]});
+    ['tasks','steal'].forEach(k=>{if(!S[k]||typeof S[k]!=='object')S[k]={}});
+    save();location.reload();
+  },{title:'导入这份备份?',yesText:'覆盖导入',noText:'算了',danger:true});
+}
+// 手机上从备忘录复制的 JSON,用这个粘回来
+function uiPasteBox(){
+  const box=document.getElementById('modal'),mask=document.getElementById('mask');
+  box.innerHTML=`<div class="modal-t">粘贴备份内容</div>
+    <div class="modal-b" style="margin-bottom:10px">把之前「复制全部」拿到的 JSON 整段粘进来。</div>
+    <textarea id="pastebox" spellcheck="false" placeholder='开头是 {"v":3,"ideas":[ ... ,结尾是 }'
+      style="width:100%;height:170px;box-sizing:border-box;padding:11px;border:1px solid var(--line);border-radius:9px;
+      background:#FDF8EC;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.55;
+      color:var(--ink);resize:vertical;outline:none"></textarea>
+    <div class="modal-a">
+      <button class="btn ghost" onclick="closeModal()">取消</button>
+      <button class="btn clay" onclick="doPaste()">导入</button></div>`;
+  mask.classList.add('on');
+  setTimeout(()=>{const t=document.getElementById('pastebox');if(t)t.focus()},120);
+}
+function doPaste(){
+  const el=document.getElementById('pastebox');
+  const t=el?el.value.trim():'';
+  if(!t){toast('还没粘内容');return}
+  closeModal();
+  applyImport(t,'这段读不了。确认粘的是完整 JSON,从 { 开头到 } 结尾。');
+}
+async function wipe(){
+  // 清空分两步问,用回调链串起来(原生弹窗在 WebView 里不居中)
+  const askCloud=()=>{
+    if(!Sync.ok){localStorage.removeItem(K);location.reload();return}
+    uiConfirm('已连接云端,要连云端那份一起删吗?\n\n选「两端都删」= 手机和电脑一起清空。选「只清本机」= 云端保留,下次打开会又拉回来。',
+      async()=>{
+        try{ if(Sync.pg){await Sync.db.from(Sync.col).delete().eq('id',Sync.docId())} else {await Sync.db.collection(Sync.col).doc(Sync.docId()).remove()} }
+        catch(e){
+          uiConfirm('云端删除失败:'+errToString(e)+'\n\n仍要清空本机吗?',()=>{localStorage.removeItem(K);location.reload()},
+            {title:'云端没删掉',yesText:'仍清本机',noText:'取消',danger:true});
+          return;
+        }
+        localStorage.removeItem(K);location.reload();
+      },
+      {title:'云端那份怎么办?',yesText:'两端都删',noText:'只清本机',danger:true,
+       onNo:"()=>{localStorage.removeItem(K);location.reload()}"});
+  };
+  uiConfirm('再确认一次:观察、候选、导师、决策卡、书单、日程、技能画像、沟通记录,全部删除,不可撤销。',askCloud,
+    {title:'真的清空?',yesText:'清空',noText:'算了',danger:true});
+}
+
+/* ---------- SYNC ---------- */
+const SYNC_K='shunshou_sync_cfg';
+let SC={envId:'',mail:'',auto:true,last:0,col:'banshu_plan',pg:1};
+try{const r=localStorage.getItem(SYNC_K);if(r)SC=Object.assign(SC,JSON.parse(r))}catch(e){}
+function saveCfg(){try{localStorage.setItem(SYNC_K,JSON.stringify(SC))}catch(e){}}
+function fmtTime(t){const d=new Date(t);
+  return (d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+function countAll(o){
+  let n=0;['ideas','cands','mentors','mlog','decs','books','ms','ev'].forEach(k=>{if(o&&Array.isArray(o[k]))n+=o[k].length});
+  return n;
+}
+function errToString(e){
+  if(!e)return '未知错误';
+  if(typeof e==='string')return e;
+  const p=[];
+  if(e.message)p.push(e.message);
+  if(e.errMsg&&e.errMsg!==e.message)p.push(e.errMsg);
+  if(e.code!==undefined&&e.code!==null)p.push('code:'+e.code);
+  if(typeof e.error==='string'&&e.error!==e.message)p.push(e.error);
+  if(!p.length&&e.stack){
+    const m=String(e.stack).match(/\b\w+Error:\s*([^\n]+)/);
+    if(m)p.push(m[1]);
+  }
+  return p.join(' | ')||String(e);
+}
+function errHint(m){
+  if(/no document database|postgresql|ExecutePGSQL|CreateTable|pgdb/i.test(m))return' · 你的环境是 PostgreSQL,不是文档数据库。js-sdk 用不了 PG。解决方法:去控制台新建一个「云开发 · 基础环境」(或「体验版」),用那个新环境 ID';
+  if(/INVALID_USERNAME_OR_PASSWORD|invalid_username_or_password|invalid username or password/i.test(m))return' · 好消息:环境 ID、网络、安全域名全都是通的,纯粹是邮箱/密码对不上。第一次用请点「注册并连接」(不是「登录」);注册过就核对密码,或去控制台「用户管理」删掉这个邮箱重来';
+  if(/password|密码|credential|invalid username|invalid password/i.test(m))return' · 邮箱或密码不对 · 核对密码复杂度,或去控制台「用户管理」重置账号';
+  if(/register|register type|not enabled|not register|login type|not login|登录授权/i.test(m))return' · 控制台没开「邮箱登录」,或「登录授权」整体没开';
+  if(/verified|email verify|verify email|未验证/i.test(m))return' · 需要先点邮件里的验证链接,或在控制台把「邮箱验证」关掉';
+  if(/network|timeout|websocket|ssl|net::|ERR_|failed to fetch|Failed to fetch/i.test(m))return' · 请求发不出去 · 别用 file:// 打开。用 http/https 网址(或 APP);若已用 http,去控制台「环境 → 安全配置 → WEB 安全域名」把 '+curHost()+' 加进去';
+  if(/unreachable/i.test(m))return' · 当前域名被 CloudBase 拒了(安全域名白名单)· 去控制台「环境 → 安全配置 → WEB 安全域名」加: '+curHost();
+  if(/env|cloudbase|env not|environment/i.test(m))return' · 检查环境 ID';
+  if(/quota|limit|over|超限|频率|频率限制/i.test(m))return' · 频率或额度超限';
+  // PostgreSQL 具体错误码(以前这些全被吞掉,现在终于能浮上来了)
+  const tb=(SC.col||'').trim()||'banshu_plan';
+  if(/42P01|undefined table|does not exist|relation "/i.test(m))
+    return' · 表「'+tb+'」不存在 · 去控制台「数据库 → SQL 编辑器」执行:CREATE TABLE IF NOT EXISTS '+tb+' (id TEXT PRIMARY KEY, p JSONB, t BIGINT);';
+  if(/42703|undefined column|column .* does not exist/i.test(m))
+    return' · 表结构不对,缺列 · 重建表:CREATE TABLE IF NOT EXISTS '+tb+' (id TEXT PRIMARY KEY, p JSONB, t BIGINT);';
+  if(/42501|insufficient privilege|permission denied/i.test(m))
+    return' · 表权限不足 · 控制台把「'+tb+'」的数据权限改成「所有用户可读、仅创建者可写」或以上';
+  if(/23505|duplicate key|violates unique/i.test(m))
+    return' · 主键冲突 · 一般不会出现,出现说明表结构被改过';
+  if(/22P02|invalid input syntax|invalid_text_representation/i.test(m))
+    return' · 数据类型对不上 · p 列应该是 JSONB、t 列应该是 BIGINT';
+  if(/collection|集合|permission|权限|denied|security/i.test(m))return' · 检查集合名「'+tb+'」和它的权限设置';
+  return'';
+}
+/* 当前域名 —— 安全域名白名单要填的就是它 */
+function curHost(){
+  if(location.protocol==='file:')return '(file:// 无域名 —— 这个页面根本不能联网)';
+  return location.host||'(未知)';
+}
+/* file:// 下浏览器禁止页面联网,这是绝大多数"连不上"的真正原因 */
+function isFileProto(){return location.protocol==='file:'}
+function fileBlockMsg(){
+  return '你是用 file:// 直接打开本地文件的。浏览器禁止这种页面联网,所以登录和同步必然失败 —— 这不是账号或配置问题。请改用 http/https 网址打开(CloudBase 静态托管给的域名最省事,自带白名单),或者直接用手机上的 APP。';
+}
+const Sync={
+  app:null,auth:null,db:null,uid:'',ok:false,state:'off',busy:false,msg:'未登录',
+  pg:true,dbKind:'',
+  get col(){const c=(SC.col||'').trim();return c||'banshu_plan'},
+  docId(){return 'u_'+(this.uid||'anon')},
+  // 关键修复:PG 环境必须用 app.rdb();app.database() 会返回 null,
+  // 之前 doLogin 里用了 database() 导致后续报 "Cannot read properties of null (reading 'collection')"
+  _bind(){
+    this.db=null;this.dbKind='';
+    // PG 优先
+    if(typeof this.app.rdb==='function'){
+      try{const d=this.app.rdb();if(d&&typeof d.from==='function'){this.db=d;this.dbKind='pg';this.pg=true;return true}}catch(e){}
+    }
+    // 回退文档型
+    if(typeof this.app.database==='function'){
+      try{const d=this.app.database();if(d&&typeof d.collection==='function'){this.db=d;this.dbKind='doc';this.pg=false;return true}}catch(e){}
+    }
+    return false;
+  },
+  async init(){
+    this.ok=false;
+    if(isFileProto()){
+      this.state='err';
+      this.msg=fileBlockMsg();
+      this.ui();return false;
+    }
+    if(!SC.envId){this.state='off';this.msg='还没填环境 ID';this.ui();return false}
+    if(typeof cloudbase==='undefined'){this.state='err';this.msg='SDK 没加载出来,同步用不了(其余功能正常)';this.ui();return false}
+    try{
+      this.state='busy';this.msg='连接中';this.ui();
+      this.app=cloudbase.init({env:SC.envId});
+      this.auth=this.app.auth({persistence:'local'});
+      const st=await this.auth.getLoginState();
+      if(!st||!st.user){
+        this.state='off';this.msg='还没登录 · 填邮箱密码后点「登录」';this.ui();return false;
+      }
+      this.uid=st.user.uid;
+      if(!this._bind())throw new Error('拿不到数据库句柄:rdb() 和 database() 都返回空');
+      SC.pg=this.pg?1:0;saveCfg();
+      this.ok=true;this.state='on';
+      this.msg='已登录 · '+(SC.mail||this.uid.slice(0,8))+' · '+(this.dbKind==='pg'?'PostgreSQL':'文档型');
+      this.ui();return true;
+    }catch(e){this.state='err';this.msg='连不上:'+errToString(e)+errHint(errToString(e));this.ui();return false}
+  },
+  // 适配层:抹平 PostgreSQL(app.rdb,PostgREST 风格)和文档型(app.database,MongoDB 风格)两种 API 的差异
+  _kind(){
+    // 以拿到的真实句柄为准,不再信任配置项,避免"配置说 PG、句柄却是文档型"这种错位
+    if(this.db&&typeof this.db.from==='function')return 'pg';
+    if(this.db&&typeof this.db.collection==='function')return 'doc';
+    return '';
+  },
+  // ★ 最关键的一个修复 ★
+  // rdb() 是 PostgREST 风格:默认 shouldThrowOnError=false,
+  // 也就是说——写表/读表【失败时不会抛异常】,错误信息静静地躺在返回值的 error 字段里。
+  // 之前的代码从不检查 error,于是"实际写入失败"也被当成成功,UI 一律显示"已同步"。
+  // 这就是"不显示异常、但数据根本没同步"的真正原因。
+  _rdbErr(r,act){
+    const e=(r&&r.error)||null;
+    if(!e)return null;
+    const msg=e.message||e.msg||e.error_description||e.details||e.hint||(typeof e==='string'?e:JSON.stringify(e));
+    const code=e.code||e.error_code||'';
+    return new Error(act+'失败'+(code?('['+code+']'):'')+':'+msg);
+  },
+  async _get(id){
+    if(!this.db){if(!this._bind())throw new Error('数据库句柄为空,先点「登录」')}
+    if(this._kind()==='pg'){
+      const r=await this.db.from(this.col).select('*').eq('id',id);
+      const e=this._rdbErr(r,'读表');if(e)throw e;
+      const d=(r&&r.data)||[];
+      return Array.isArray(d)&&d.length?d[0]:null;
+    }
+    const r=await this.db.collection(this.col).doc(id).get();
+    const d=r&&r.data?r.data:null;
+    return Array.isArray(d)?d[0]:d;
+  },
+  async _set(id,obj){
+    if(!this.db){if(!this._bind())throw new Error('数据库句柄为空,先点「登录」')}
+    if(this._kind()==='pg'){
+      const row=Object.assign({id:id},obj);
+      const r=await this.db.from(this.col).upsert(row,{onConflict:'id'});
+      const e=this._rdbErr(r,'写入');if(e)throw e;
+      return r;
+    }
+    return await this.db.collection(this.col).doc(id).set(obj);
+  },
+  // 全表扫描:看云端到底存了些什么(判断"数据库乱没乱"就靠它)
+  async _all(){
+    if(!this.db){if(!this._bind())throw new Error('数据库句柄为空,先点「登录」')}
+    if(this._kind()!=='pg')throw new Error('全表扫描只支持 PostgreSQL 环境');
+    let r=null;
+    try{r=await this.db.from(this.col).select('*').limit(500)}
+    catch(e){r=await this.db.from(this.col).select('*')}
+    const er=this._rdbErr(r,'读取全表');if(er)throw er;
+    return (r&&r.data)||[];
+  },
+  async pull(force){
+    if(!this.ok){const k=await this.init();if(!k)return}
+    if(this.busy)return;
+    this.busy=true;this.state='busy';this.msg='拉取中';this.ui();
+    try{
+      const rec=await this._get(this.docId());
+      if(rec&&rec.p){
+        const rt=rec.t||0,lt=S._t||0,ln=countAll(S),rn=countAll(rec.p);
+        if(ln>0&&rn===0&&!force){this.msg='远端是空的,已保留本地(想覆盖用「强制上传」)'}
+        else if(force||rt>lt){
+          if(ln>0&&rn<ln*0.5&&!force){
+            // 条数差太多,先问一句再覆盖(自定义弹窗,回调形式)
+            const self=this;
+            this.busy=false;this.state='on';this.msg='等你决定 · 条数差太多';this.ui();
+            uiConfirm('云端只有 '+rn+' 条,这台设备有 '+ln+' 条。\n\n选「用云端覆盖」= 以云端为准,本机多出来的会没掉。\n选「把本机传上去」= 以本机为准,覆盖云端。',
+              ()=>{S=rec.p;save(true);refreshAll();SC.last=Date.now();saveCfg();
+                   self.state='on';self.msg='已同步 · '+fmtTime(Date.now());self.ui();},
+              {title:'数据条数对不上',yesText:'用云端覆盖',noText:'把本机传上去',danger:true,
+               onNo:"()=>{Sync.push()}"});
+            return;
+          }
+          S=rec.p;save(true);refreshAll();
+          this.msg='已同步 · '+fmtTime(Date.now());
+        }else{this.msg='本地更新,无需拉取'}
+        SC.last=Date.now();saveCfg();
+      }else{
+        this.msg='远端还没有数据,正把本地传上去';
+        S._t=Date.now();
+        await this._set(this.docId(),{p:S,t:S._t});
+        SC.last=Date.now();saveCfg();
+      }
+      this.state='on';
+    }catch(e){const m=errToString(e);this.state='err';this.msg='拉取失败:'+m+errHint(m)}
+    this.busy=false;this.ui();
+  },
+  async push(){
+    if(!this.ok){const k=await this.init();if(!k)return}
+    if(this.busy)return;
+    this.busy=true;this.state='busy';this.msg='上传中';this.ui();
+    try{
+      S._t=Date.now();
+      await this._set(this.docId(),{p:S,t:S._t});
+      // 上传后回读校验:写入调用"返回成功"不等于数据真的落库了,读回来比对一次才作数
+      const back=await this._get(this.docId());
+      if(!back)throw new Error('写进去了但读不回来 · 检查表名是否一字不差、权限是否可写');
+      if((back.t||0)!==S._t)
+        throw new Error('云端和本机对不上 · 云端时间戳 '+fmtTime(back.t||0)+',刚传的是 '+fmtTime(S._t)+' —— 可能被别的设备覆盖,或写入被服务端拦下');
+      SC.last=Date.now();saveCfg();
+      this.state='on';
+      this.msg='已同步 · '+fmtTime(SC.last)+' · 云端确认 '+countAll(back.p||{})+' 条';
+    }catch(e){const m=errToString(e);this.state='err';this.msg='上传失败:'+m+errHint(m)}
+    this.busy=false;this.ui();
+  },
+  ui(){
+    const el=document.getElementById('sy-state');
+    const C={on:'var(--sage)',off:'var(--ink3)',err:'#B45B4B',busy:'var(--clay)'};
+    if(el)el.innerHTML=`<div style="display:flex;align-items:center;gap:10px;font-size:13.5px;flex-wrap:wrap">
+      <i style="width:8px;height:8px;border-radius:50%;background:${C[this.state]||'var(--ink3)'}"></i>
+      <span>${esc(this.msg)}</span>
+      ${SC.last?`<span style="margin-left:auto;color:var(--ink3);font-size:12px">上次 ${fmtTime(SC.last)}</span>`:''}</div>`;
+    renderSyncPill();renderSyncCard();
+  }
+};
+function doLogin(reg){
+  // file:// 下登录必然失败,别让用户在这上面耗时间
+  if(isFileProto()){
+    Sync.state='err';Sync.msg=fileBlockMsg();Sync.ui();
+    uiAlert(fileBlockMsg()+'\n\n当前地址:'+location.href+'\n\n三个办法任选一个:\n1. 把 index.html 传到 CloudBase「静态网站托管」,用它给的 https 域名打开(自带白名单,最省事)\n2. 本机起个静态服务,用 http://127.0.0.1:端口 打开,再去控制台把该域名加进 WEB 安全域名\n3. 直接用手机上的 APP(Capacitor 打包的),APP 里是 https 容器,不受这条限制','用 file:// 打不开同步');
+    return;
+  }
+  SC.envId=document.getElementById('sy-env').value.trim();
+  SC.mail=document.getElementById('sy-mail').value.trim();
+  SC.col=(document.getElementById('sy-col').value.trim()||'banshu_plan');
+  SC.pg=1;   // 锁定 PostgreSQL
+  const pwd=document.getElementById('sy-pwd').value;
+  SC.auto=document.getElementById('sy-auto').checked;
+  if(!SC.envId){toast('先填环境 ID');return}
+  if(!SC.col){toast('集合名不能为空,默认 banshu_plan');SC.col='banshu_plan'}
+  if(!SC.mail||!pwd){toast('邮箱和密码都要填');return}
+  if(pwd.length<8){toast('密码至少 8 位');return}
+  if(reg&&!/[a-zA-Z]/.test(pwd)){toast('密码必须包含字母(不能全是数字)');return}
+  if(reg&&!/[0-9]/.test(pwd)){toast('密码必须包含数字(不能全是字母)');return}
+  saveCfg();
+  Sync.state='busy';Sync.msg=reg?'注册中':'登录中';Sync.ui();
+  (async()=>{
+    let signUpErr='';
+    try{
+      if(typeof cloudbase==='undefined')throw new Error('cloudbase SDK 没加载出来(lib/cloudbase.js 缺了或被拦了)');
+      Sync.app=cloudbase.init({env:SC.envId});
+      Sync.auth=Sync.app.auth({persistence:'local'});   // local = 关掉页面再开还是登录态
+      // 注册失败不要紧(多半是"邮箱已注册"),但要把原因记下来,真失败时一起报给用户
+      if(reg){try{await Sync.auth.signUpWithEmailAndPassword(SC.mail,pwd)}catch(e){signUpErr=errToString(e)}}
+      let st=null;
+      try{st=await Sync.auth.signInWithEmailAndPassword(SC.mail,pwd)}catch(e){signUpErr=signUpErr||errToString(e)}
+      // 有的版本 signIn 的返回值不是 state,再主动取一次;取不到就等一下重试
+      if(!st||!st.user){try{st=await Sync.auth.getLoginState()}catch(e){}}
+      if(!st||!st.user){await new Promise(r=>setTimeout(r,600));try{st=await Sync.auth.getLoginState()}catch(e){}}
+      if(!st||!st.user)throw new Error((signUpErr?signUpErr+' → ':'')+'登录了但拿不到用户信息');
+      Sync.uid=st.user.uid;
+      // 关键修复:原来写的是 app.database(),PG 环境下它返回 null
+      if(!Sync._bind())throw new Error('拿不到数据库句柄:rdb() 和 database() 都返回空');
+      SC.pg=Sync.pg?1:0;saveCfg();
+      Sync.ok=true;Sync.state='on';
+      Sync.msg='已登录 · '+SC.mail+' · '+(Sync.dbKind==='pg'?'PostgreSQL':'文档型');
+      Sync.ui();toast(reg?'注册并连接成功':'登录成功');
+      Sync.pull();
+    }catch(e){
+      Sync.ok=false;Sync.state='err';
+      let m=errToString(e);
+      if(signUpErr&&signUpErr!==m)m=signUpErr+' || '+m;
+      Sync.msg='失败:'+m+errHint(m);
+      Sync.ui();toast(Sync.msg);
+    }
+  })();
+}
+/* ---------- 一键自检 ----------
+   把「为什么登不上/不同步」直接打到页面上,可一键复制。
+   重点区分三种完全不同的失败:file:// 打不开 / 域名不在白名单 / 表不存在 */
+async function runDiag(){
+  const L=[];const t0=Date.now();
+  const say=s=>{L.push(s);const el=document.getElementById('diag-out');if(el)el.textContent=L.join('\n')};
+  const ok=b=>b?'✅':'❌';
+  let bigOk=true;
+
+  const el=document.getElementById('diag-out');
+  const host=(el||{});
+  if(el){el.style.display='block';el.textContent='自检中…'}
+
+  say('自检开始 · '+new Date().toLocaleString());
+  say('【1】运行环境');
+  const proto=location.protocol;
+  say('协议: '+proto+(proto==='file:'?'   ❌ file:// 必然失败,要改成 http/https':'   ✅'));
+  if(proto==='file:')bigOk=false;
+  say('当前域名: '+(location.host||'(无)'));
+  say('环境 ID: '+(SC.envId||'(空)'));
+  say('表名: '+((SC.col||'').trim()||'banshu_plan'));
+
+  say('【2】SDK');
+  if(typeof cloudbase==='undefined'){
+    say(ok(false)+' cloudbase 没加载 —— lib/cloudbase.js 没找到或被拦。其余功能不受影响。');bigOk=false;
+    say('--- 自检结束(SDK 缺失,后面测不了)---');return;
+  }
+  say(ok(true)+' cloudbase 已加载'+(cloudbase.version?(' v'+cloudbase.version):''));
+
+  say('【3】登录态');
+  let st=null;
+  try{
+    if(!Sync.app||!Sync.auth){Sync.app=cloudbase.init({env:SC.envId});Sync.auth=Sync.app.auth({persistence:'local'})}
+    st=await Sync.auth.getLoginState();
+  }catch(e){say('读取登录态异常:'+errToString(e))}
+  if(st&&st.user){
+    say(ok(true)+' 已登录 uid='+String(st.user.uid).slice(0,10)+'…');
+    Sync.uid=st.user.uid;
+  }else{
+    say(ok(false)+' 未登录 —— 在上面填邮箱密码,点「登录」(第一次点「注册并连接」)');
+    bigOk=false;
+  }
+
+  say('【4】凭证');
+  let tk='';
+  try{const r=await Sync.auth.getAccessToken();tk=(r&&(r.accessToken||r.token))||''}catch(e){}
+  if(!tk){try{tk=Sync.auth.accessToken||''}catch(e){}}
+  if(tk){
+    say(ok(true)+' 拿到 token,长度 '+tk.length+(tk.split('.').length===3?' (JWT 格式正常)':' (不是 JWT,可能是旧版 token)'));
+    if(tk.split('.').length===3){
+      try{
+        const p=JSON.parse(atob(tk.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+        const exp=p.exp?new Date(p.exp*1000):null;
+        say('  过期时间:'+(exp?exp.toLocaleString():'未知')+(exp&&exp<new Date()?'  ⚠️ 已过期,重新登录一次':'  ✅ 有效'));
+      }catch(e){}
+    }
+  }else{
+    say(ok(false)+' 拿不到 token —— 基本等于没登录,或登录态已失效');bigOk=false;
+  }
+
+  if(Sync.uid){
+    say('【5】数据库句柄');
+    const bound=Sync._bind();
+    say(ok(bound)+' 句柄类型: '+(Sync.dbKind==='pg'?'PostgreSQL (app.rdb)':Sync.dbKind==='doc'?'文档型 (app.database)':'拿不到'));
+    if(!bound){say('  rdb() 和 database() 都返回空 —— 环境类型可能不对,或 SDK 版本太旧');bigOk=false}
+
+    say('【6】读表测试(决定性一步)');
+    try{
+      const r=await Sync._get(Sync.docId());
+      say(ok(true)+' 读表成功 · '+(r?('远端有数据,条目数 '+countAll(r.p||{})):'远端还没有你这行(第一次正常,登录会自动上传)'));
+    }catch(e){
+      const m=errToString(e);bigOk=false;
+      say(ok(false)+' 读表失败: '+m);
+      if(/Failed to fetch|fetch|network|unreachable/i.test(m))
+        say('  → 请求发不出去。八成是域名不在白名单:去控制台「环境 → 安全配置 → WEB 安全域名」把【'+curHost()+'】加进去,约 10 分钟生效');
+      else if(/does not exist|relation|42P01|undefined table/i.test(m))
+        say('  → 表不存在。去控制台「数据库 → SQL 编辑器」执行建表语句(设置页里那个,可点击复制)');
+      else if(/permission|denied|policy|42501/i.test(m))
+        say('  → 表权限不够。把该表的数据权限改成「所有用户可读、仅创建者可写」或以上');
+      else say('  → '+errHint(m));
+    }
+
+    say('【7】写表测试(写完会自己删掉,不留垃圾)');
+    try{
+      const probeId=Sync.docId()+'_diag';
+      const stamp=Date.now();
+      await Sync._set(probeId,{p:{ideas:[]},t:stamp});
+      // 回读校验:写调用"没报错"≠ 真写进去了,这是最容易骗人的一层
+      const back=await Sync._get(probeId);
+      if(!back)throw new Error('写入返回成功,但读不回来 —— 表名或权限有问题');
+      if((back.t||0)!==stamp)throw new Error('写进去的内容和传的不一致');
+      say(ok(true)+' 写入成功,并且读回来对上了 —— 这条链路是真通的');
+      try{await Sync.db.from(Sync.col).delete().eq('id',probeId)}catch(e){}
+    }catch(e){
+      const m=errToString(e);bigOk=false;
+      say(ok(false)+' 写入失败: '+m+' '+errHint(m));
+      if(/does not exist|relation|42P01/i.test(m))say('  → 表不存在,去执行建表 SQL');
+      else if(/permission|denied|42501/i.test(m))say('  → 权限不够,把表权限改成「所有用户可写」');
+    }
+  }
+
+  say('');
+  say(bigOk?'=== 全部通过。若仍不同步:确认两台设备登录的是同一个邮箱 ===':'=== 上面第一个 ❌ 就是根因,照它后面的提示改 ===');
+  say('耗时 '+((Date.now()-t0)/1000).toFixed(1)+'s · 点「复制自检结果」可发给别人看');
+}
+function copyDiag(){
+  const el=document.getElementById('diag-out');if(!el)return;
+  const txt=el.textContent||'';
+  const done=()=>toast('自检结果已复制');
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,()=>{fallback()});return}
+  }catch(e){}
+  function fallback(){
+    const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');done()}catch(e){toast('复制失败,手动选中下面的文字复制')}
+    document.body.removeChild(ta);
+  }
+  fallback();
+}
+/* ---------- 云端体检 ----------
+   回答"我的数据库是不是乱了":把云端这张表里实际存的所有行列出来,
+   逐行看 id / 时间 / 条数 / 体积,并标出垃圾行(自检留的 _diag、匿名 _anon、测试 test)。 */
+async function runAudit(){
+  const el=document.getElementById('diag-out');
+  const L=[];
+  const say=s=>{L.push(s);if(el)el.textContent=L.join('\n')};
+  if(el){el.style.display='block';el.textContent='正在扫描云端…'}
+
+  if(isFileProto()){say('❌ 现在是 file:// 打开的,连不上网。请用 http://127.0.0.1:8765/ 或 APP 再试。');return}
+  if(!Sync.ok){const k=await Sync.init();if(!k){say('❌ 还没登录,先填邮箱密码点「登录」。');return}}
+
+  say('云端体检 · '+new Date().toLocaleString());
+  say('环境: '+(SC.envId||'(空)')+'   表: '+Sync.col+'   当前 uid: '+String(Sync.uid||'').slice(0,12));
+  say('');
+
+  let rows=[];
+  try{
+    rows=await Sync._all();
+  }catch(e){
+    const m=errToString(e);
+    say('❌ 读不到这张表: '+m);
+    if(/does not exist|relation|42P01|undefined table/i.test(m))
+      say('  → 表根本不存在。去控制台执行建表 SQL(设置页里那个,点一下可复制)。');
+    else if(/permission|denied|policy|42501/i.test(m))
+      say('  → 权限不够,表的数据权限至少设成「所有用户可读」。');
+    else say('  → '+errHint(m));
+    return;
+  }
+
+  if(!rows.length){say('这张表里一行数据都没有 —— 干净的。点「强制上传」把本机数据传上去。');return}
+
+  const mine=Sync.docId();
+  const isJunk=id=>/_diag|_anon|_probe|_test|test_/i.test(String(id));
+  say('表里一共 '+rows.length+' 行:');
+  say('');
+
+  let junk=0;
+  rows.forEach((r,i)=>{
+    const id=String(r.id||'(无 id)');
+    const isMine=id===mine;
+    const j=isJunk(id);
+    if(j)junk++;
+    const n=countAll(r.p||{});
+    let size='';
+    try{size=Math.round(JSON.stringify(r.p||{}).length/1024)+'KB'}catch(e){size='?'}
+    const tag=isMine?' ← 本机的':(j?'   🗑 垃圾行':'');
+    say((i+1)+'. '+id+tag);
+    say('     '+(r.t?('更新于 '+fmtTime(r.t)):'没有时间戳')+' · '+n+' 条 · '+size);
+  });
+
+  say('');
+  say('──────────');
+  say('你本机的行 id: '+mine);
+  const hasMine=rows.some(r=>String(r.id)===mine);
+  say(hasMine?'✅ 云端有你这行,同步应该能落到它上面':'⚠️ 云端没有你这行 —— 点「强制上传」创建它');
+  if(junk>0){
+    say('⚠️ 有 '+junk+' 行垃圾数据(自检/测试留下的)。不影响同步,但建议清掉。');
+    if(el){
+      const btn=document.createElement('button');
+      btn.className='btn ghost';btn.style.marginTop='10px';
+      btn.textContent='清掉这 '+junk+' 行垃圾数据';
+      btn.onclick=()=>cleanJunk(rows.filter(r=>isJunk(String(r.id))));
+      el.parentNode.insertBefore(btn,el.nextSibling);
+    }
+  }else{
+    say('✅ 没有垃圾行,数据库是干净的');
+  }
+  say('');
+  say('结论:'+(hasMine?'数据和行都在,'+(junk?'只是混了点垃圾,清掉即可。':'数据库没问题。'):'缺你这行,上传一次就好。'));
+}
+async function cleanJunk(rows){
+  if(!rows.length)return;
+  uiConfirm('要删除 '+rows.length+' 行垃圾数据:\n'+rows.map(r=>'  · '+r.id).join('\n')+'\n\n只删自检/测试留下来的,不动你本机那行。确定?',
+    async ()=>{
+      let okN=0,failN=0;
+      for(const r of rows){
+        try{
+          const q=await Sync.db.from(Sync.col).delete().eq('id',r.id);
+          const e=Sync._rdbErr(q,'删除');if(e)throw e;
+          okN++;
+        }catch(e){failN++}
+      }
+      toast('清理完成 · 删掉 '+okN+' 行'+(failN?(' · '+failN+' 行失败(可能权限不够)'):''));
+      runAudit();
+    },{title:'清理垃圾数据',yesText:'删掉',noText:'先不删',danger:true});
+}
+function doLogout(){
+  (async()=>{
+    try{if(Sync.auth)await Sync.auth.signOut()}catch(e){}
+    Sync.ok=false;Sync.uid='';Sync.state='off';Sync.msg='已登出';
+    const p=document.getElementById('sy-pwd');if(p)p.value='';
+    Sync.ui();toast('已登出');
+  })();
+}
+// 数据库类型已锁定 PG,这里只负责刷新建表 SQL 的提示
+function onDbTypeChange(){
+  const el=document.getElementById('pg-tip');if(!el)return;
+  const colEl=document.getElementById('sy-col');
+  const tbl=((colEl&&colEl.value.trim())||(SC.col||'').trim()||'banshu_plan');
+  el.innerHTML=`<details style="margin:6px 0 0;font-size:12.5px;line-height:1.55"><summary style="cursor:pointer;color:var(--clay);font-weight:600;user-select:none">第一次用?展开看建表 SQL(只用一次)</summary>
+     <div style="margin-top:6px">控制台 →「数据库」→ <b>SQL 编辑器 / DMC</b> → 执行下面这句(表名要跟上面「集合名」一字不差,现在填的是 <code style="background:#F0EAD8;padding:1px 5px;border-radius:3px">${esc(tbl)}</code>):<br>
+     <pre style="margin:7px 0 0;padding:9px 11px;background:#FDF8EC;border:1px solid var(--line);border-radius:7px;overflow-x:auto;font-size:11.5px;line-height:1.5;cursor:pointer;user-select:all" onclick="try{navigator.clipboard.writeText(this.innerText);toast('SQL 已复制')}catch(e){}" title="点一下复制">CREATE TABLE IF NOT EXISTS ${esc(tbl)} (
+  id TEXT PRIMARY KEY,
+  p  JSONB,
+  t  BIGINT
+);</pre></div></details>`;
+}
+function resetCloudAccount(){
+  const envId=(SC.envId||'').trim()||(document.getElementById('sy-env')||{}).value||'';
+  const mailbox=(SC.mail||'').trim()||(document.getElementById('sy-mail')||{}).value||'';
+  const link=`https://console.cloud.tencent.com/tcb/user${envId?'?envId='+envId:''}`;
+  const msg=[
+    '如果你之前注册过这个邮箱但密码忘了,最干净的办法是去控制台手动删掉旧账号,再回这里注册。',
+    '',
+    '步骤:',
+    '1. 打开「用户管理」:'+link,
+    '2. 找你要重置的邮箱,'+mailbox+'  这一行点右侧「删除」',
+    '3. 回来点「注册并连接」重新开账号',
+    '',
+    '如果控制台找不到「用户管理」入口,可能没在「登录授权」里开过「邮箱登录」—— 这是注册过的前提条件。去左边栏先开一下,再回来删。'
+  ].join('\n');
+  uiAlert(msg,'重置云账号');
+}
+function refreshAll(){
+  renderHome();renderMs();renderPhases();renderMt();renderMl();renderRate();renderCands();
+  renderIdeas();renderSteal();renderBooks();renderSkills();renderCheese();renderDirs();renderDecs();renderWk();
+}
+function renderSyncPill(){
+  const el=document.getElementById('sync-pill');if(!el)return;
+  const on=Sync.ok;
+  el.className='sync-pill '+(Sync.state==='err'?'err':(on?'on':''));
+  el.innerHTML='<i></i>'+(on?'已同步':(Sync.state==='err'?'同步异常':(SC.envId?'未登录':'未开启')));
+}
+function renderSyncCard(){
+  const el=document.getElementById('sync-card');if(!el)return;
+  const on=Sync.ok;
+  el.innerHTML=`<div class="card goo" style="background:linear-gradient(180deg,#fff,#FDF9EF);display:flex;gap:15px;align-items:center;flex-wrap:wrap;cursor:pointer" onclick="go('me');mtab('data')">
+    <div style="width:9px;height:9px;border-radius:50%;background:${on?'var(--sage)':(Sync.state==='err'?'#B45B4B':'var(--ink3)')};flex-shrink:0"></div>
+    <div style="flex:1;min-width:170px">
+      <div style="font-size:14px;font-weight:600">${on?'云同步已开启 · 手机和电脑是同一份':(Sync.state==='err'?'云同步有问题 · 点开看原因':'还没开云同步')}</div>
+      <div style="font-size:12.5px;color:var(--ink3);margin-top:3px">${on?('上次同步 '+fmtTime(SC.last)):(Sync.state==='err'?esc(Sync.msg):'开了之后换设备自动对上,手机记的电脑就能看到')}</div>
+    </div>
+    <span class="btn ghost sm">${on?'去管理':'去设置'}</span>
+  </div>`;
+}
+
+/* ---------- init ---------- */
+S.ms.forEach(m=>{if(!m.id)m.id=uid()});
+S.books.forEach(b=>{if(!b.id)b.id=uid()});
+document.getElementById('ml-d').value=d2s(TODAY);
+document.getElementById('dc-d').value=d2s(TODAY);
+document.getElementById('sy-env').value=SC.envId||'';
+document.getElementById('sy-col').value=SC.col||'banshu_plan';
+SC.pg=1;   // 锁定 PostgreSQL
+if(typeof onDbTypeChange==='function')onDbTypeChange();
+document.getElementById('sy-mail').value=SC.mail||'';
+document.getElementById('sy-auto').checked=SC.auto!==false;
+renderMs();renderPhases();renderMt();renderMl();renderRate();renderCands();renderDup();
+renderIdeas();renderSrc();renderSteal();renderBooks();renderHob();renderSkills();renderCheese();renderDirs();renderDecs();
+renderHome();renderWk();Sync.ui();renderTabbar();
+try{const _p=new URLSearchParams(location.search).get('_p');if(_p&&document.getElementById('p-'+_p))go(_p)}catch(e){}
+try{const _t=new URLSearchParams(location.search).get('_t');if(_t&&['skill','dec','book','data'].indexOf(_t)>=0)mtab(_t)}catch(e){}
+try{const _st=new URLSearchParams(location.search).get('_st');if(_st&&['mt','rate','cand','dup'].indexOf(_st)>=0)stab(_st)}catch(e){}
+// Chrome headless dump-dom 不会等 DOMContentLoaded,所以再次执行兜底
+window.addEventListener('load',()=>{
+  try{const _p=new URLSearchParams(location.search).get('_p');if(_p&&document.getElementById('p-'+_p))go(_p)}catch(e){}
+  try{const _st=new URLSearchParams(location.search).get('_st');if(_st&&['mt','rate','cand','dup'].indexOf(_st)>=0)stab(_st)}catch(e){}
+});
+
+try{const ch=document.getElementById('cur-host');if(ch)ch.textContent=curHost()}catch(e){}
+if(SC.envId)Sync.init().then(ok=>{if(ok)Sync.pull()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Sync.ok&&SC.auto)Sync.pull()});
+window.addEventListener('online',()=>{if(Sync.ok&&SC.auto)Sync.pull()});
+setInterval(()=>{if(Sync.ok&&SC.auto&&!document.hidden)Sync.pull()},60000);
+</script>
+</body>
+</html>
